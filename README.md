@@ -7,7 +7,7 @@
 
 A no-nonsense view subclass to use nibs inside other nibs and storyboards, with Interface Builder live-previews.
 
-Supports UIView, NSView, IBDesignable, IBInspectable multiple-nesting and further subclassing.
+Supports UIView, NSView, IBDesignable, IBInspectable, multiple-nesting and further subclassing.
 
 ## Requirements
 
