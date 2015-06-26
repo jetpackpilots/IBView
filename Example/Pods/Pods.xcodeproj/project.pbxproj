@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		1593C244C9CB5ED6A7F9A630 /* Pods-IBView_Tests-IBView-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 552B3435C408985E9EA2420A /* Pods-IBView_Tests-IBView-dummy.m */; };
 		26BFB99FCA7CAF78746DBE04 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D723669A1ABD41E3FBEDE997 /* Foundation.framework */; };
-		2A0649F7DF855C23509587F4 /* ReplaceMe.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DB9868AFD77339A0F40454 /* ReplaceMe.m */; };
+		369B40771B3E0CE9003FC77E /* IBView.m in Sources */ = {isa = PBXBuildFile; fileRef = 369B40751B3E0CAB003FC77E /* IBView.m */; };
 		6D5B30327D360BF060BEDAE4 /* Pods-IBView_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 67551124332339229809B974 /* Pods-IBView_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		840AEB4C4E090998CE033717 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D723669A1ABD41E3FBEDE997 /* Foundation.framework */; };
 		B168F96C2D2C9BE6D6597947 /* Pods-IBView_Tests-IBView-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 24081A02C6FE336C52450043 /* Pods-IBView_Tests-IBView-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -36,12 +36,13 @@
 
 /* Begin PBXFileReference section */
 		0059FFC0D7A8DA055E2E8486 /* IBView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = IBView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		18DB9868AFD77339A0F40454 /* ReplaceMe.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ReplaceMe.m; sourceTree = "<group>"; };
 		1F0E5CEAA8F3872FBB14E69C /* Pods-IBView_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-IBView_Tests.modulemap"; sourceTree = "<group>"; };
 		210F9532E5559031796CA384 /* IBView.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IBView.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		24081A02C6FE336C52450043 /* Pods-IBView_Tests-IBView-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-IBView_Tests-IBView-umbrella.h"; sourceTree = "<group>"; };
 		2628D183612727596798AABA /* Pods_IBView_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IBView_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3090B5C8A1D18CCF63455FB9 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		369B40741B3E0CAB003FC77E /* IBView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IBView.h; sourceTree = "<group>"; };
+		369B40751B3E0CAB003FC77E /* IBView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IBView.m; sourceTree = "<group>"; };
 		49A59CFE694A10994A71F7DB /* Pods-IBView_Tests-IBView.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-IBView_Tests-IBView.xcconfig"; sourceTree = "<group>"; };
 		552B3435C408985E9EA2420A /* Pods-IBView_Tests-IBView-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-IBView_Tests-IBView-dummy.m"; sourceTree = "<group>"; };
 		67551124332339229809B974 /* Pods-IBView_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-IBView_Tests-umbrella.h"; sourceTree = "<group>"; };
@@ -170,7 +171,8 @@
 		DDE7E7F8A90BE11CFA87142B /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				18DB9868AFD77339A0F40454 /* ReplaceMe.m */,
+				369B40741B3E0CAB003FC77E /* IBView.h */,
+				369B40751B3E0CAB003FC77E /* IBView.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -328,7 +330,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1593C244C9CB5ED6A7F9A630 /* Pods-IBView_Tests-IBView-dummy.m in Sources */,
-				2A0649F7DF855C23509587F4 /* ReplaceMe.m in Sources */,
+				369B40771B3E0CE9003FC77E /* IBView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
