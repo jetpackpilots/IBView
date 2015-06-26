@@ -3,7 +3,7 @@ This application makes use of the following third party libraries:
 
 ## IBView
 
-Copyright (c) 2015 Christopher Fuller <git@chrisfuller.me>
+Copyright (c) 2015 Jetpack Pilots, Inc. [http://jetpackpilots.com]
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

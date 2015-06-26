@@ -12,11 +12,12 @@
 		6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
-		EB51B947F20985FBC6ED3483 /* Pods_IBView_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A5DDA3EE224AB3EE5C4AB22 /* Pods_IBView_Tests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		9C317974AB51EC997576A4CB /* libPods-IBView_Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 57EDF42C8686E24131F5C987 /* libPods-IBView_Tests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		514B87FE90B041B05787CAA3 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		57EDF42C8686E24131F5C987 /* libPods-IBView_Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-IBView_Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		6003F591195388D20070C39A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -28,7 +29,6 @@
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
 		60CD9767C6386EA741236C93 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		8205C04E904F3AF0AF8D567B /* IBView.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = IBView.podspec; path = ../IBView.podspec; sourceTree = "<group>"; };
-		9A5DDA3EE224AB3EE5C4AB22 /* Pods_IBView_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IBView_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E21F765DA71E6D24893A7E88 /* Pods-IBView_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IBView_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IBView_Tests/Pods-IBView_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		F528D1B81FB990D26D1FAC91 /* Pods-IBView_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IBView_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-IBView_Tests/Pods-IBView_Tests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -41,7 +41,7 @@
 				6003F5B0195388D20070C39A /* XCTest.framework in Frameworks */,
 				6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */,
-				EB51B947F20985FBC6ED3483 /* Pods_IBView_Tests.framework in Frameworks */,
+				9C317974AB51EC997576A4CB /* libPods-IBView_Tests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,7 +83,7 @@
 				6003F58F195388D20070C39A /* CoreGraphics.framework */,
 				6003F591195388D20070C39A /* UIKit.framework */,
 				6003F5AF195388D20070C39A /* XCTest.framework */,
-				9A5DDA3EE224AB3EE5C4AB22 /* Pods_IBView_Tests.framework */,
+				57EDF42C8686E24131F5C987 /* libPods-IBView_Tests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -128,7 +128,6 @@
 				6003F5AA195388D20070C39A /* Sources */,
 				6003F5AB195388D20070C39A /* Frameworks */,
 				6003F5AC195388D20070C39A /* Resources */,
-				DE59B82AC096F5CFF62FA6B5 /* Embed Pods Frameworks */,
 				38E1FF759B7E0552C5BBCB5A /* Copy Pods Resources */,
 			);
 			buildRules = (
@@ -198,21 +197,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-IBView_Tests/Pods-IBView_Tests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		DE59B82AC096F5CFF62FA6B5 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-IBView_Tests/Pods-IBView_Tests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E19B48F5E2904F2B246DDA3F /* Check Pods Manifest.lock */ = {

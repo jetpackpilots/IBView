@@ -1,19 +1,20 @@
 {
   "name": "IBView",
   "version": "0.1.0",
-  "summary": "A short description of IBView.",
-  "description": "                       An optional longer description of IBView\n\n                       * Markdown format.\n                       * Don't worry about the indent, we strip it!\n",
-  "homepage": "https://github.com/<GITHUB_USERNAME>/IBView",
+  "summary": "A no-nonsense view subclass to use nibs inside other nibs and storyboards, with Interface Builder live-previews. Supports UIView, NSView, IBDesignable, IBInspectable multiple-nesting and further subclassing.",
+  "description": "                       A no-nonsense view subclass to use nibs inside other nibs and storyboards,\n                       with Interface Builder live-previews. Supports UIView, NSView, IBDesignable,\n                       IBInspectable multiple-nesting and further subclassing.\n",
+  "homepage": "https://github.com/jetpackpilots/IBView",
   "license": "MIT",
   "authors": {
     "Christopher Fuller": "git@chrisfuller.me"
   },
   "source": {
-    "git": "https://github.com/<GITHUB_USERNAME>/IBView.git",
+    "git": "https://github.com/jetpackpilots/IBView.git",
     "tag": "0.1.0"
   },
   "platforms": {
-    "ios": "7.0"
+    "ios": "6.0",
+    "osx": "10.8"
   },
   "requires_arc": true,
   "source_files": "Pod/Classes/**/*",
@@ -21,5 +22,12 @@
     "IBView": [
       "Pod/Assets/*.png"
     ]
+  },
+  "public_header_files": "Pod/Classes/**/*.h",
+  "ios": {
+    "frameworks": "UIKit"
+  },
+  "osx": {
+    "frameworks": "AppKit"
   }
 }
