@@ -5,6 +5,10 @@
 [![License](https://img.shields.io/cocoapods/l/IBView.svg?style=flat)](http://cocoapods.org/pods/IBView)
 [![Platform](https://img.shields.io/cocoapods/p/IBView.svg?style=flat)](http://cocoapods.org/pods/IBView)
 
+A no-nonsense view subclass to use nibs inside other nibs and storyboards,
+with Interface Builder live-previews. Supports UIView, NSView, IBDesignable,
+IBInspectable multiple-nesting and further subclassing.
+
 ## Usage
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
