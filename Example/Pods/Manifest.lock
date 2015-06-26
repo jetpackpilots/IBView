@@ -1,0 +1,14 @@
+PODS:
+  - IBView (0.1.0)
+
+DEPENDENCIES:
+  - IBView (from `../`)
+
+EXTERNAL SOURCES:
+  IBView:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  IBView: 9f62c7c5181e1304e34c025cf41f298021b6bfaa
+
+COCOAPODS: 0.37.2
