@@ -10,7 +10,7 @@
 Pod::Spec.new do |s|
   s.name             = "IBView"
   s.version          = "0.1.0"
-  s.summary          = "A no-nonsense view subclass to use nibs inside other nibs and storyboards, with Interface Builder live-previews. Supports UIView, NSView, IBDesignable, IBInspectable, multiple-nesting and further subclassing."
+  s.summary          = "A no-nonsense view subclass to use nibs inside other nibs and storyboards, with Interface Builder live-previews. Supports UIView & NSView."
   s.description      = <<-DESC
                        A no-nonsense view subclass to use nibs inside other nibs and storyboards,
                        with Interface Builder live-previews. Supports UIView, NSView, IBDesignable,
