@@ -33,5 +33,5 @@ Pod::Spec.new do |s|
 
   s.public_header_files = 'Pod/Classes/**/*.h'
   s.ios.frameworks = 'UIKit'
-  s.osx.frameworks = 'AppKit'
+  s.osx.frameworks = 'Cocoa'
 end
