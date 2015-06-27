@@ -1,7 +1,7 @@
 {
   "name": "IBView",
   "version": "0.1.0",
-  "summary": "A no-nonsense view subclass to use nibs inside other nibs and storyboards, with Interface Builder live-previews. Supports UIView, NSView, IBDesignable, IBInspectable, multiple-nesting and further subclassing.",
+  "summary": "A no-nonsense view subclass to use nibs inside other nibs and storyboards, with Interface Builder live-previews. Supports UIView & NSView.",
   "description": "                       A no-nonsense view subclass to use nibs inside other nibs and storyboards,\n                       with Interface Builder live-previews. Supports UIView, NSView, IBDesignable,\n                       IBInspectable, multiple-nesting and further subclassing.\n",
   "homepage": "https://github.com/jetpackpilots/IBView",
   "license": "MIT",
@@ -28,6 +28,6 @@
     "frameworks": "UIKit"
   },
   "osx": {
-    "frameworks": "AppKit"
+    "frameworks": "Cocoa"
   }
 }
