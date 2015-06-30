@@ -29,7 +29,7 @@ pod "IBView"
 
 ## Acknowledgments
 
-* [Garo Hussenjian](http://github.com/garohussenjian)
+* [Garo Hussenjian](http://github.com/garohussenjian) - For invaluable help in creating IBView, thank you.
 
 ## License
 
