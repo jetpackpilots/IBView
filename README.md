@@ -20,6 +20,7 @@ IBView is available through [CocoaPods](http://cocoapods.org). Add `IBView` to y
 
 ```ruby
 use_frameworks!
+
 pod "IBView"
 ```
 
@@ -29,7 +30,7 @@ pod "IBView"
 
 ## Acknowledgments
 
-* [Garo Hussenjian](http://github.com/garohussenjian) - For invaluable help in creating IBView, thank you.
+* [Garo Hussenjian](http://github.com/garohussenjian) - for invaluable help in creating IBView, thank you.
 
 ## License
 
