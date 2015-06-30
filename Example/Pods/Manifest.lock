@@ -9,6 +9,6 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  IBView: 29aa122341bb3f8261a3c5d5f41de87d3f608d61
+  IBView: 483f1fce1796afba1b4f8f4aed51bce41da4669e
 
 COCOAPODS: 0.37.2
