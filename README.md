@@ -16,8 +16,7 @@ IBInspectable, multiple-nesting and further subclassing.
 
 ## Installation
 
-IBView is available through [CocoaPods](http://cocoapods.org). To install
-it, simply add the following line to your Podfile:
+IBView is available through [CocoaPods](http://cocoapods.org). Add `IBView` to your Podfile and be sure to use frameworks:
 
 ```ruby
 use_frameworks!
