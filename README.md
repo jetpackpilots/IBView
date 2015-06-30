@@ -5,13 +5,14 @@
 [![License](https://img.shields.io/cocoapods/l/IBView.svg?style=flat)](http://cocoapods.org/pods/IBView)
 [![Platform](https://img.shields.io/cocoapods/p/IBView.svg?style=flat)](http://cocoapods.org/pods/IBView)
 
-A no-nonsense view subclass to use nibs inside other nibs and storyboards, with Interface Builder live-previews.
-
-Supports UIView, NSView, IBDesignable, IBInspectable, multiple-nesting and further subclassing.
+A no-nonsense view subclass to use nibs inside other nibs and storyboards,
+with Interface Builder live-previews. Supports UIView, NSView, IBDesignable,
+IBInspectable, multiple-nesting and further subclassing.
 
 ## Requirements
 
-Xcode 6
+* iOS 7.0+ / Mac OS X 10.9+
+* Xcode 6.3
 
 ## Installation
 
@@ -19,6 +20,7 @@ IBView is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
+use_frameworks!
 pod "IBView"
 ```
 
