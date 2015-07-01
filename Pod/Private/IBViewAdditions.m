@@ -49,15 +49,11 @@
         id nib = nibs[nibName];
 
         if (nib) {
-            @try {
 #if TARGET_OS_IPHONE
-                objects = [nib instantiateWithOwner:self options:nil];
+            objects = [nib instantiateWithOwner:self options:nil];
 #else
-                [nib instantiateWithOwner:self topLevelObjects:&objects];
+            [nib instantiateWithOwner:self topLevelObjects:&objects];
 #endif
-            }
-            @catch (NSException *exception) {
-            }
         }
         else {
             for (NSBundle *bundle in [NSBundle allBundles]) {
@@ -68,15 +64,19 @@
                 nib = [[NSNib alloc] initWithNibNamed:nibName bundle:bundle];
 #endif
                 if (nib) {
-                    @try {
 #if TARGET_OS_IPHONE
+                    @try {
                         objects = [nib instantiateWithOwner:self options:nil];
-#else
-                        [nib instantiateWithOwner:self topLevelObjects:&objects];
-#endif
                     }
                     @catch (NSException *exception) {
                     }
+#else
+                    @try {
+                        [nib instantiateWithOwner:self topLevelObjects:&objects];
+                    }
+                    @catch (NSException *exception) {
+                    }
+#endif
                     if (objects) {
                         nibs[nibName] = nib;
                         break;
