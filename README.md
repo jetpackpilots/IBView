@@ -4,6 +4,26 @@ A no-nonsense view subclass to use nibs inside other nibs and storyboards,
 with Interface Builder live-previews. Supports UIView, NSView, IBDesignable,
 IBInspectable, multiple-nesting and further subclassing.
 
+## Purpose
+
+Storyboards and nibs are great. But they tend to be used in a very view controller centric way.  Custom view subclasess where the UI of the view exists in it's own nib have always been possible.
+The problem is that Xcode does not provide a standard implementation and you must rely on your
+own code to load the nibs. That's where IBView comes in. When subclassing IBView you can now
+design your view's user interface in a separate nib just for the view itself. IBView takes care
+of the plumbing to make it work. And thanks to the new IBDesignable feature of Xcode, when you
+place your custom view into a storyboard (or other nib), you see a live preview the contents of
+your custom view's interface.
+
+## Possible Uses
+
+- Design a view's user interface in it's own nib file.
+- Change a view's user interface at runtime simply by changing it's nib name.
+- A/B test two different UI designs for a view.
+- Set a view's nib based on the device or other runtime attributes.
+- Re-use a custom view throughout the app for a consistent user experience.
+- Share a user interface implementation between a view and a table/collection view.
+- To avoid excessive view logic in controllers, pair each view controller with an IBView subclass with it's own nib.
+
 ## Requirements
 
 - iOS 7.0+ / Mac OS X 10.8+
