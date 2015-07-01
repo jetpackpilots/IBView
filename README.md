@@ -11,7 +11,7 @@ IBInspectable, multiple-nesting and further subclassing.
 
 ## Requirements
 
-* iOS 7.0+ / Mac OS X 10.9+
+* iOS 8.0+ / Mac OS X 10.9+
 * Xcode 6.3
 
 ## Installation
@@ -30,7 +30,7 @@ pod "IBView"
 
 ## Acknowledgments
 
-* [Garo Hussenjian](http://github.com/garohussenjian) - for invaluable help in creating IBView, thank you.
+* [Garo Hussenjian](http://github.com/garohussenjian) provided invaluable help in creating IBView, thank you.
 
 ## License
 
