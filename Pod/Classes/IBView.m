@@ -24,9 +24,13 @@
 
 #import "IBView.h"
 
+#import "IBViewAdditions.h"
+
 @interface IBView ()
 
-@property (strong, nonatomic) NSString *previousNibName;
+@property (strong, nonatomic) id nibView;
+@property (strong, nonatomic) NSString *nibNameForInterfaceBuilder;
+@property (assign, nonatomic) BOOL awokeFromNib;
 
 @end
 
@@ -37,146 +41,54 @@
 - (NSString *)nibName
 {
     if (! _nibName) {
-        _nibName = [NSStringFromClass([self class]) componentsSeparatedByString:@"."].lastObject;
+        _nibName = [self IBView_defaultNibName];
     }
-
     return _nibName;
 }
 
 - (void)setNibName:(NSString *)nibName
 {
     if (nibName != _nibName) {
-
         _nibName = nibName;
-
         [self nibNameDidChange];
-
     }
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
-
     if (self) {
         [self nibNameDidChange];
     }
-
     return self;
+}
+
+- (void)prepareForInterfaceBuilder
+{
+    if (! [self.nibName isEqualToString:self.nibNameForInterfaceBuilder]) {
+        self.nibNameForInterfaceBuilder = self.nibName;
+        [self nibNameDidChange];
+    }
 }
 
 - (void)awakeFromNib
 {
     [super awakeFromNib];
-
-    [self nibNameDidChange];
-}
-
-- (void)prepareForInterfaceBuilder
-{
-    [self nibNameDidChange];
+    if (! self.awokeFromNib) {
+        self.awokeFromNib = YES;
+        [self nibNameDidChange];
+    }
 }
 
 - (void)nibNameDidChange
 {
-    static NSMutableDictionary *nibs;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        nibs = [NSMutableDictionary dictionary];
-    });
-
-    if ((! [self.nibName isEqualToString:@"IBView"]) && (! [self.nibName isEqualToString:self.previousNibName])) {
-
-        self.previousNibName = self.nibName;
-
-        for (id view in self.subviews) {
-            [view removeFromSuperview];
+    if (! [self.nibName isEqualToString:@"IBView"]) {
+        [self.nibView removeFromSuperview];
+        self.nibView = [self IBView_nibViewWithNibName:self.nibName];
+        if (self.nibView) {
+            [self IBView_addNibView:self.nibView toView:self];
         }
-
-        if (self.nibName) {
-
-#if TARGET_OS_IPHONE
-
-            UINib *nib = nibs[self.nibName];
-
-            if (! nib) {
-                @try {
-                    NSBundle *bundle = [NSBundle bundleForClass:self.class];
-                    nib = [UINib nibWithNibName:self.nibName bundle:bundle];
-                }
-                @catch (NSException *exception) {
-                }
-                if (nib) {
-                    nibs[self.nibName] = nib;
-                }
-            }
-
-            if (nib) {
-                NSArray *objects;
-                @try {
-                    objects = [nib instantiateWithOwner:self options:nil];
-                }
-                @catch (NSException *exception) {
-                }
-                for (id object in objects) {
-                    if ([object isKindOfClass:[UIView class]]) {
-                        [self addNibView:object];
-                        break;
-                    }
-                }
-            }
-
-#else
-
-            NSNib *nib = nibs[self.nibName];
-
-            if (! nib) {
-                @try {
-                    NSBundle *bundle = [NSBundle bundleForClass:self.class];
-                    nib = [[NSNib alloc] initWithNibNamed:self.nibName bundle:bundle];
-                }
-                @catch (NSException *exception) {
-                }
-                if (nib) {
-                    nibs[self.nibName] = nib;
-                }
-            }
-
-            if (nib) {
-                NSArray *objects;
-                @try {
-                    [nib instantiateWithOwner:self topLevelObjects:&objects];
-                }
-                @catch (NSException *exception) {
-                }
-                for (id object in objects) {
-                    if ([object isKindOfClass:[NSView class]]) {
-                        [self addNibView:object];
-                        break;
-                    }
-                }
-            }
-
-#endif
-
-        }
-
     }
-}
-
-- (void)addNibView:(id)view
-{
-    [view setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self addSubview:view];
-    NSDictionary *views = NSDictionaryOfVariableBindings(view);
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|"
-                                                                 options:0
-                                                                 metrics:nil
-                                                                   views:views]];
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view]|"
-                                                                 options:0
-                                                                 metrics:nil
-                                                                   views:views]];
 }
 
 @end
