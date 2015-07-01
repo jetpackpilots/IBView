@@ -13,7 +13,7 @@ IBInspectable, multiple-nesting and further subclassing.
 
 Manually add the `IBView` and `IBViewAdditions` classes into your Mac or iOS project.
 
-*IBView is not currently available via [CocoaPods](http://cocoapods.org), see [known issues](#known-issues) for more information*
+*NOTE: IBView is not currently available via [CocoaPods](http://cocoapods.org), see [known issues](#known-issues) for more information.*
 
 ## Known Issues
 
