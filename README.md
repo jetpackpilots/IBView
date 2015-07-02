@@ -79,12 +79,6 @@ distribution via [CocoaPods](http://cocoapods.org) is on hold until Xcode has im
 compatibility with framework views. If you are interested in checking it out or helping, IBView
 has a [cocoapods branch](https://github.com/jetpackpilots/IBView/tree/cocoapods) for testing.
 
-- **iOS Only:** To use IBView with UITableViewCell, add an IBView subclass as a subview of the cell's
-content view.
-
-- **Mac Only:** Live-previews do not work well for NSViewController views that are IBView subclasses.
-Instead, add an IBView subclass as a subview of the NSViewController view.
-
 ## Author
 
 [Christopher Fuller](http://github.com/chrisfuller)
