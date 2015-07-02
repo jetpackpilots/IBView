@@ -2,9 +2,9 @@
   <img src="https://raw.githubusercontent.com/jetpackpilots/IBView/assets/IBView.png" alt="IBView" title="IBView">
 </p>
 
-A no-nonsense view subclass to use nibs inside other nibs and storyboards,
-with Interface Builder live-previews. Supports UIView, NSView, IBDesignable,
-IBInspectable, multiple-nesting and further subclassing.
+A no-nonsense view subclass to use nibs inside other nibs and storyboards, with Interface Builder live-previews.
+
+Supports UIView, NSView, IBDesignable, IBInspectable, multiple-nesting and further subclassing.
 
 ## Purpose
 
