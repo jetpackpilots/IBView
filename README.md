@@ -37,6 +37,16 @@ Manually add the `IBView` and `IBViewAdditions` classes into your Mac or iOS pro
 
 *NOTE: IBView is not currently available via [CocoaPods](http://cocoapods.org), see [known issues](#known-issues) for more information.*
 
+## Subclassing Notes
+
+Subclassing IBView is supported in both **Objective-C** and **Swift**.
+
+For Swift, be sure to import `IBView` in the [bridging header](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html):
+
+```
+#import "IBView.h"
+```
+
 ## Known Issues
 
 - IBView's IBDesignable functionality in Xcode's interface builder is intermittent when IBView
