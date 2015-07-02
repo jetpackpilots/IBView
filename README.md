@@ -71,8 +71,6 @@ IBView supports multiple nib files for a custom view. In other words, you may cr
 files for a particular IBView subclass and then switch between them at runtime by simply changing
 the `nibName` property. The naming convention for the nibs is entirely up to you.
 
-And conversely you could use one nib with several different IBView subclasses.
-
 ## Class Compatibility
 
 #### iOS
