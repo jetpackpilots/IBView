@@ -71,6 +71,20 @@ IBView supports multiple nib files for a custom view. In other words, you may cr
 files for a particular IBView subclass and then switch between them at runtime by simply changing
 the `nibName` property. The naming convention for the nibs is entirely up to you.
 
+## Class Compatibility
+
+#### iOS
+
+Class            | Note
+-----            | ----
+UIViewController | It's view can be an IBView subclass.
+
+#### Mac
+
+Class            | Note
+-----            | ----
+NSViewController | It's view can actaully be an IBView subclass, but unfortunately live-previews are **NOT** working. So instead, add an IBView subclass as a subview of the NSViewController view.
+
 ## Known Issues
 
 - IBView's IBDesignable functionality in Xcode's interface builder is intermittent when IBView
