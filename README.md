@@ -13,8 +13,8 @@ The problem is that Xcode does not provide a standard implementation and you mus
 own code to load the nibs. That's where IBView comes in. When subclassing IBView you can now
 design your view's user interface in a separate nib just for the view itself, while IBView takes
 care of the plumbing to make it work. And thanks to the new IBDesignable feature of Xcode, when
-you place your custom view into a storyboard (or other nib), you see a live preview the contents
-of your custom view's interface.
+you place your custom view into a storyboard (or other nib), you will see a live preview of the
+contents of your custom view's interface.
 
 ## Possible Uses
 
