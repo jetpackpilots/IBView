@@ -11,10 +11,10 @@ Supports UIView, NSView, IBDesignable, IBInspectable, multiple-nesting and furth
 Storyboards and nibs are great. But they tend to be used in a very view controller centric way.  Custom view subclasess where the UI of the view exists in it's own nib have always been possible.
 The problem is that Xcode does not provide a standard implementation and you must rely on your
 own code to load the nibs. That's where IBView comes in. When subclassing IBView you can now
-design your view's user interface in a separate nib just for the view itself. IBView takes care
-of the plumbing to make it work. And thanks to the new IBDesignable feature of Xcode, when you
-place your custom view into a storyboard (or other nib), you see a live preview the contents of
-your custom view's interface.
+design your view's user interface in a separate nib just for the view itself, while IBView takes
+care of the plumbing to make it work. And thanks to the new IBDesignable feature of Xcode, when
+you place your custom view into a storyboard (or other nib), you see a live preview the contents
+of your custom view's interface.
 
 ## Possible Uses
 
@@ -22,7 +22,7 @@ your custom view's interface.
 - Change a view's user interface at runtime simply by changing it's nib name.
 - A/B test two different UI designs for a view.
 - Set a view's nib based on the device or other runtime attributes.
-- Re-use a custom view throughout the app for a consistent user experience.
+- Re-use a custom view throughout an app's UI for a consistent user experience.
 - Share a user interface implementation between a view and a table/collection view.
 - To avoid excessive view logic in controllers, pair each view controller with an IBView subclass with it's own nib.
 
@@ -31,9 +31,13 @@ your custom view's interface.
 - iOS 7.0+ / Mac OS X 10.8+
 - Xcode 6.3
 
+## Instructions
+
+Detailed instructions with screenshots [are available in the wiki](https://github.com/jetpackpilots/IBView/wiki/IBView-Instructions).
+
 ## Installation
 
-Manually add the `IBView` and `IBViewAdditions` classes into your Mac or iOS project.
+Manually add the [classes](https://github.com/jetpackpilots/IBView/tree/master/IBView) into your iOS or Mac project.
 
 *NOTE: IBView is not currently available via [CocoaPods](http://cocoapods.org), see [known issues](#known-issues) for more information.*
 
@@ -52,11 +56,11 @@ For Swift, be sure to import `IBView` in the [bridging header](https://developer
 Using IBView is very straightforward and always follows these basic steps:
 
 1. Create a custom view by first adding a new `IBView` subclass to the project.
-2. Next add a nib for the custom view to the project. Be sure to select a `View` nib in the 'User Interface' section of the add file wizard.
+2. Next add a nib for the custom view to the project. Be sure to select a `View` nib in the *User Interface* section of the add file wizard.
 3. In the nib, set the class of the `File's Owner` to the name of your custom class.
 4. Make `IBOutlet` and `IBAction` connections to `File's Owner`.
 5. Utilize the new IBView subclass in another nib or storyboard. To do this, simply add a view to another nib or storyboard and set it's class to your custom class.
-6. Now only if you did **NOT** name the nib the same name as the class, set the `nibName` property to the name of the nib (without the file extension). The `nibName` can be specified in Interface builder via an IBInspectable property that shows up in the 'Attributes Inspector'. `IBView` defaults the `nibName` property to the name of the class itself, so it is often left blank or unassigned. The `nibName` property can also be assigned in code, by either setting or overridding the property.
+6. Now only if you did **NOT** name the nib the same name as the class, set the `nibName` property to the name of the nib (without the file extension). The `nibName` can be specified in Interface builder via an IBInspectable property that shows up in the *Attributes Inspector*. The `nibName` property can also be assigned in code, by either setting or overriding the property. `IBView` defaults the `nibName` property to the name of the class itself, so it is completely fine to leave it blank or unassigned to use the default name.
 7. Still in the other nib or storyboard, you should now see a preview of the custom view's nib contents.
 
 That's it, you're done!
