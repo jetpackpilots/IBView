@@ -59,10 +59,20 @@ Using IBView is very straightforward and always follows these basic steps:
 2. Next add a nib for the custom view to the project. Be sure to select a `View` nib in the *User Interface* section of the add file wizard.
 3. In the nib, set the class of the `File's Owner` to the name of your custom class. This will allow you to make `IBOutlet` and `IBAction` connections from the nib to your custom class. Feel free to make those connections now, or at a later time.
 4. Utilize the new IBView subclass in another nib or storyboard. To do this, simply add a view to another nib or storyboard and set it's class to your custom class.
-5. Now only if you did **NOT** name the nib the same name as the class, set the `nibName` property to the name of the nib. The `nibName` can be specified in Interface builder via an IBInspectable property that shows up in the *Attributes Inspector*. The `nibName` property can also be assigned in code, by either setting or overriding the property. `IBView` defaults the `nibName` property to the name of the class itself, so it is completely fine to leave it blank or unassigned to use the default name.
+5. Now only if you did **NOT** name the nib the same name as the class, set the `nibName` property to the name of the nib. The `nibName` can be specified in Interface Builder via an IBInspectable property that shows up in the *Attributes Inspector*. The `nibName` property can also be assigned in code, by either setting or overriding the property. `IBView` defaults the `nibName` property to the name of the class itself, so it is completely fine to leave it blank or unassigned to use the default name.
 6. Still in the other nib or storyboard, you should now see a preview of the custom view's nib contents.
 
 That's it, you're done!
+
+## A Note About Delegation
+
+When utilizing IBView it quickly becomes clear that you are no longer able to make `IBOutlet` and `IBAction` connections from objects inside your custom views' nibs to your view controllers. This is by design and is the expected behavior of IBView.
+
+One suggested approach to communicate events from custom views to view controllers is to use delegation. By creating a delegate protocol for a custom view, you can encapsulate the view's event handling within the view itself, and notify the view controller when events occur by calling delegate methods.
+
+To implement this type of delegation, the custom view will require a delegate protocol as well as a delegate property that must conform to that protocol. The view controller can be set as the custom view's delegate and will then implement the protocol methods. Note that the view controller can be set as the view's delegate in code or with a connection in Interface Builder.
+
+See [Working with Protocols](https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/WorkingwithProtocols/WorkingwithProtocols.html) for more information.
 
 ## Advanced Usage
 
@@ -71,6 +81,8 @@ files for a particular IBView subclass and then switch between them at runtime b
 the `nibName` property. The naming convention for the nibs is entirely up to you.
 
 ## Class Compatibility
+
+*Please feel free to [submit an issue](https://github.com/jetpackpilots/IBView/issues/new) to request (or provide) additional class compatibility or incompatibility information.*
 
 #### iOS
 
@@ -82,11 +94,11 @@ UIViewController | It's view can be an IBView subclass.
 
 Class            | Notes
 -----            | -----
-NSViewController | It's view can actaully be an IBView subclass, but unfortunately live-previews are **NOT** working. So instead, add an IBView subclass as a subview of the NSViewController view.
+NSViewController | It's view can actaully be an IBView subclass, but unfortunately live-previews are **NOT** working. So instead, add an IBView subclass as a subview of the NSViewController's view.
 
 ## Known Issues
 
-- IBView's IBDesignable functionality in Xcode's interface builder is intermittent when IBView
+- IBView's IBDesignable functionality in Xcode's Interface Builder is intermittent when IBView
 is distributed as a framework. Therefore manual installation is recommended for now, and IBView
 distribution via [CocoaPods](http://cocoapods.org) is on hold until Xcode has improved IBDesignable
 compatibility with framework views. If you are interested in checking it out or helping, IBView
