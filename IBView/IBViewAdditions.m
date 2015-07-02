@@ -43,7 +43,9 @@
         nibs = [NSMutableDictionary dictionary];
     });
 
-    if (nibName) {
+    nibName = [nibName stringByDeletingPathExtension];
+
+    if (nibName.length) {
 
         NSArray *objects;
         id nib = nibs[nibName];
