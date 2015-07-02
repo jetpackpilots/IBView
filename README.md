@@ -96,6 +96,10 @@ Class            | Notes
 -----            | -----
 NSViewController | It's view can actaully be an IBView subclass, but unfortunately live-previews are **NOT** working. So instead, add an IBView subclass as a subview of the NSViewController's view.
 
+## Troubleshooting
+
+Before trying anything else, select `Refresh All Views` from the `Editor` menu in Xcode whenever the live-previews get out of sync.
+
 ## Known Issues
 
 - IBView's IBDesignable functionality in Xcode's Interface Builder is intermittent when IBView
