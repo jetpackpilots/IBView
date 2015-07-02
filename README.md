@@ -57,8 +57,7 @@ Using IBView is very straightforward and always follows these basic steps:
 4. Make `IBOutlet` and `IBAction` connections to `File's Owner`.
 5. Utilize the new IBView subclass in another nib or storyboard. To do this, simply add a view to another nib or storyboard and set it's class to your custom class.
 6. Now only if you did **NOT** name the nib the same name as the class, set the `nibName` property to the name of the nib (without the file extension). The `nibName` can be specified in Interface builder via an IBInspectable property that shows up in the 'Attributes Inspector'. `IBView` defaults the `nibName` property to the name of the class itself, so it is often left blank or unassigned. The `nibName` property can also be assigned in code, by either setting or overridding the property.
-
-You should now see a preview of the nib's contents in this other nib or storyboard.
+7. Still in the other nib or storyboard, you should now see a preview of the custom view's nib contents.
 
 That's it, you're done!
 
