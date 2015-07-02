@@ -49,8 +49,10 @@
 - (void)setNibName:(NSString *)nibName
 {
     if (nibName != _nibName) {
-        _nibName = nibName;
-        [self nibNameDidChange];
+        _nibName = [nibName copy];
+        if (self.awokeFromNib) {
+            [self nibNameDidChange];
+        }
     }
 }
 
