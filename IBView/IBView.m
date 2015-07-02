@@ -24,8 +24,6 @@
 
 #import "IBView.h"
 
-#import "IBViewAdditions.h"
-
 @interface IBView ()
 
 @property (strong, nonatomic) id nibView;
@@ -41,7 +39,7 @@
 - (NSString *)nibName
 {
     if (! _nibName) {
-        _nibName = [self IBView_defaultNibName];
+        _nibName = [NSStringFromClass([self class]) componentsSeparatedByString:@"."].lastObject;
     }
     return _nibName;
 }
@@ -86,11 +84,96 @@
 {
     if (! [self.nibName isEqualToString:@"IBView"]) {
         [self.nibView removeFromSuperview];
-        self.nibView = [self IBView_nibViewWithNibName:self.nibName];
+        self.nibView = [self nibViewWithNibName:self.nibName];
         if (self.nibView) {
-            [self IBView_addNibView:self.nibView toView:self];
+            [self.class addNibView:self.nibView toView:self];
         }
     }
+}
+
+- (id)nibViewWithNibName:(NSString *)nibName
+{
+    static NSMutableDictionary *nibs;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        nibs = [NSMutableDictionary dictionary];
+    });
+
+    nibName = [nibName stringByDeletingPathExtension];
+
+    if (nibName.length) {
+
+        NSArray *objects;
+        id nib = nibs[nibName];
+
+        if (nib) {
+#if TARGET_OS_IPHONE
+            objects = [nib instantiateWithOwner:self options:nil];
+#else
+            [nib instantiateWithOwner:self topLevelObjects:&objects];
+#endif
+        }
+        else {
+            NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+#if TARGET_OS_IPHONE
+            nib = [UINib nibWithNibName:nibName bundle:bundle];
+#else
+            nib = [[NSNib alloc] initWithNibNamed:nibName bundle:bundle];
+#endif
+            if (nib) {
+#if TARGET_OS_IPHONE
+                @try {
+                    objects = [nib instantiateWithOwner:self options:nil];
+                }
+                @catch (NSException *exception) {
+                }
+#else
+                @try {
+                    [nib instantiateWithOwner:self topLevelObjects:&objects];
+                }
+                @catch (NSException *exception) {
+                }
+#endif
+                if (objects.count) {
+                    nibs[nibName] = nib;
+                }
+            }
+        }
+
+        for (id object in objects) {
+#if TARGET_OS_IPHONE
+            if ([object isKindOfClass:[UIView class]]) {
+                return object;
+            }
+#else
+            if ([object isKindOfClass:[NSView class]]) {
+                return object;
+            }
+#endif
+        }
+
+    }
+
+    return nil;
+}
+
++ (void)addNibView:(id)nibView toView:(id)view
+{
+    [nibView setTranslatesAutoresizingMaskIntoConstraints:NO];
+#if TARGET_OS_IPHONE
+    [view insertSubview:nibView atIndex:0];
+#else
+    [view addSubview:nibView positioned:NSWindowBelow relativeTo:nil];
+#endif
+    NSDictionary *views = NSDictionaryOfVariableBindings(nibView);
+    [view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[nibView]|"
+                                                                 options:0
+                                                                 metrics:nil
+                                                                   views:views]];
+    [view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[nibView]|"
+                                                                 options:0
+                                                                 metrics:nil
+                                                                   views:views]];
 }
 
 @end
