@@ -37,7 +37,7 @@ Detailed instructions with screenshots [are available in the wiki](https://githu
 
 ## Installation
 
-Manually add the [classes](https://github.com/jetpackpilots/IBView/tree/master/IBView) into your iOS or Mac project.
+Manually add the [IBView class](https://github.com/jetpackpilots/IBView/tree/master/IBView) into your iOS or Mac project.
 
 *NOTE: IBView is not currently available via [CocoaPods](http://cocoapods.org), see [known issues](#known-issues) for more information.*
 
