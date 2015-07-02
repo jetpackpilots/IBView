@@ -77,14 +77,14 @@ And conversely you could use one nib with several different IBView subclasses.
 
 #### iOS
 
-Class            | Note
------            | ----
+Class            | Notes
+-----            | -----
 UIViewController | It's view can be an IBView subclass.
 
 #### Mac
 
-Class            | Note
------            | ----
+Class            | Notes
+-----            | -----
 NSViewController | It's view can actaully be an IBView subclass, but unfortunately live-previews are **NOT** working. So instead, add an IBView subclass as a subview of the NSViewController view.
 
 ## Known Issues
