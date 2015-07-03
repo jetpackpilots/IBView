@@ -55,7 +55,33 @@ pod "IBView"
 
 Subclassing IBView is supported in both **Objective-C** and **Swift**.
 
-For Swift, be sure to import `IBView` in the [bridging header](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html):
+In either case, all subclasses need to explicitly declare themselves as IBDesignable.
+
+#### Objective-C Example
+
+```
+#import <IBView/IBView.h>
+
+IB_DESIGNABLE
+
+@interface CustomView : IBView
+@end
+
+@implementation CustomView
+@end
+```
+
+#### Swift Example
+
+```Swift
+import UIKit
+import IBView
+
+@IBDesignable class CustomView: IBView {
+}
+```
+
+And for Swift, be sure to also import `IBView` in the [bridging header](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html):
 
 ```
 #import <IBView/IBView.h>
@@ -119,6 +145,13 @@ NSViewController | It's view can actaully be an IBView subclass, but unfortunate
 ## Troubleshooting
 
 Select `Refresh All Views` from the `Editor` menu in Xcode whenever the live-previews get out of sync.
+
+## Known Issues
+
+Since IBView is distributed as a framework, the following known issues exist:
+
+- The IBView base class cannot be used as a view class directly in Interface Builder, instead IBView subclasses should always be used.
+- All IBView subclasses need to explicitly declare themselves as IBDesignable even though the base IBView class already does.
 
 ## Author
 
