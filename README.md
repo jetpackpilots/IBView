@@ -8,7 +8,8 @@ Supports UIView, NSView, IBDesignable, IBInspectable, multiple-nesting and furth
 
 ## Purpose
 
-Storyboards and nibs are great. But they tend to be used in a very view controller centric way.  Custom view subclasess where the UI of the view exists in it's own nib have always been possible.
+Storyboards and nibs are great. But they tend to be used in a very view controller centric way.
+Custom view subclasess where the UI of the view exists in it's own nib have always been possible.
 The problem is that Xcode does not provide a standard implementation and you must rely on your
 own code to load the nibs. That's where IBView comes in. When subclassing IBView you can now
 design your view's user interface in a separate nib just for the view itself, while IBView takes
@@ -22,7 +23,7 @@ contents of your custom view's interface.
 - Change a view's user interface at runtime simply by changing it's nib name.
 - A/B test two different UI designs for a view.
 - Set a view's nib based on the device or other runtime attributes.
-- Re-use a custom view throughout an app's UI for a consistent user experience.
+- Reuse a custom view throughout an app's UI for a consistent user experience.
 - Share a user interface implementation between a view and a table/collection view.
 - To avoid excessive view logic in controllers, pair each view controller with an IBView subclass with it's own nib.
 
@@ -66,11 +67,19 @@ That's it, you're done!
 
 ## A Note About Delegation
 
-When utilizing IBView it quickly becomes clear that you are no longer able to make `IBOutlet` and `IBAction` connections from objects inside your custom views' nibs to your view controllers. This is by design and is the expected behavior of IBView.
+When utilizing IBView it quickly becomes clear that you are no longer able to make `IBOutlet`
+and `IBAction` connections from objects inside your custom views' nibs to your view controllers.
+This is by design and is the expected behavior of IBView.
 
-One suggested approach to communicate events from custom views to view controllers is to use delegation. By creating a delegate protocol for a custom view, you can encapsulate the view's event handling within the view itself, and notify the view controller when events occur by calling delegate methods.
+One suggested approach to communicate events from custom views to view controllers is to use
+delegation. By creating a delegate protocol for a custom view, you can encapsulate the view's
+event handling within the view itself, and notify the view controller when events occur by calling
+delegate methods.
 
-To implement this type of delegation, the custom view will require a delegate protocol as well as a delegate property that must conform to that protocol. The view controller can be set as the custom view's delegate and will then implement the protocol methods. Note that the view controller can be set as the view's delegate in code or with a connection in Interface Builder.
+To implement this type of delegation, the custom view will require a delegate protocol as well
+as a delegate property that must conform to that protocol. The view controller can be set as the
+custom view's delegate and will then implement the protocol methods. Note that the view controller
+can be set as the view's delegate in code or with a connection in Interface Builder.
 
 See [Working with Protocols](https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/WorkingwithProtocols/WorkingwithProtocols.html) for more information.
 
@@ -96,7 +105,7 @@ UITableViewCell      | An IBView subclass can be added as a subview of the cell'
 
 Class            | Notes
 -----            | -----
-NSViewController | It's view can actaully be an IBView subclass, but unfortunately live-previews are **NOT** working. So instead, add an IBView subclass as a subview of the NSViewController's view.
+NSViewController | It's view can actaully be an IBView subclass, but unfortunately live-previews do **NOT** work. So instead, add an IBView subclass as a subview of the NSViewController's view.
 
 ## Troubleshooting
 
