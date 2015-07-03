@@ -17,10 +17,7 @@
     "osx": "10.9"
   },
   "requires_arc": true,
-  "source_files": [
-    "Pod/Classes/**/*",
-    "Pod/Private/**/*"
-  ],
+  "source_files": "Pod/Classes/**/*",
   "public_header_files": "Pod/Classes/**/*.h",
   "ios": {
     "frameworks": "UIKit"
