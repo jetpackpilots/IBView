@@ -86,9 +86,11 @@ the `nibName` property. The naming convention for the nibs is entirely up to you
 
 #### iOS
 
-Class            | Notes
------            | -----
-UIViewController | It's view can be an IBView subclass.
+Class                | Notes
+-----                | -----
+UIViewController     | It's view can be an IBView subclass.
+UICollectionViewCell | An IBView subclass can be added as a subview of the cell's content view.
+UITableViewCell      | An IBView subclass can be added as a subview of the cell's content view.
 
 #### Mac
 
