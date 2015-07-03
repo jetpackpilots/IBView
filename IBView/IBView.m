@@ -86,7 +86,7 @@
         [self.nibView removeFromSuperview];
         self.nibView = [self nibViewWithNibName:self.nibName];
         if (self.nibView) {
-            [self.class addNibView:self.nibView toView:self];
+            [self addNibView:self.nibView];
         }
     }
 }
@@ -157,20 +157,20 @@
     return nil;
 }
 
-+ (void)addNibView:(id)nibView toView:(id)view
+- (void)addNibView:(id)nibView
 {
     [nibView setTranslatesAutoresizingMaskIntoConstraints:NO];
 #if TARGET_OS_IPHONE
-    [view insertSubview:nibView atIndex:0];
+    [self insertSubview:nibView atIndex:0];
 #else
     [view addSubview:nibView positioned:NSWindowBelow relativeTo:nil];
 #endif
     NSDictionary *views = NSDictionaryOfVariableBindings(nibView);
-    [view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[nibView]|"
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[nibView]|"
                                                                  options:0
                                                                  metrics:nil
                                                                    views:views]];
-    [view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[nibView]|"
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[nibView]|"
                                                                  options:0
                                                                  metrics:nil
                                                                    views:views]];
