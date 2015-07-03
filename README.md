@@ -109,7 +109,7 @@ NSViewController | It's view can actaully be an IBView subclass, but unfortunate
 
 ## Troubleshooting
 
-Before trying anything else, select `Refresh All Views` from the `Editor` menu in Xcode whenever the live-previews get out of sync.
+Select `Refresh All Views` from the `Editor` menu in Xcode whenever the live-previews get out of sync.
 
 ## Known Issues
 
