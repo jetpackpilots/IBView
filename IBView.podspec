@@ -20,16 +20,11 @@ Pod::Spec.new do |s|
   s.license          = 'MIT'
   s.author           = { "Christopher Fuller" => "git@chrisfuller.me" }
   s.source           = { :git => "https://github.com/jetpackpilots/IBView.git", :tag => s.version.to_s }
-
   s.ios.deployment_target = '8.0'
   s.osx.deployment_target = '10.9'
-
   s.requires_arc = true
-
-  s.source_files = 'Pod/Classes/**/*', 'Pod/Private/**/*'
-
+  s.source_files = 'Pod/Classes/**/*'
   s.public_header_files = 'Pod/Classes/**/*.h'
-
   s.ios.frameworks = 'UIKit'
   s.osx.frameworks = 'Cocoa'
 end
