@@ -163,7 +163,7 @@
 #if TARGET_OS_IPHONE
     [self insertSubview:nibView atIndex:0];
 #else
-    [view addSubview:nibView positioned:NSWindowBelow relativeTo:nil];
+    [self addSubview:nibView positioned:NSWindowBelow relativeTo:nil];
 #endif
     NSDictionary *views = NSDictionaryOfVariableBindings(nibView);
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[nibView]|"
