@@ -97,7 +97,7 @@ the `nibName` property. The naming convention for the nibs is entirely up to you
 
 ## Class Compatibility
 
-*Please feel free to [submit an issue](https://github.com/jetpackpilots/IBView/issues/new) to request (or provide) additional class compatibility or incompatibility information.*
+*Please feel free to [submit an issue](https://github.com/jetpackpilots/IBView/issues/new) to discuss class compatibility and/or incompatibility.*
 
 #### iOS
 
@@ -124,6 +124,10 @@ is distributed as a framework. Therefore manual installation is recommended for 
 distribution via [CocoaPods](http://cocoapods.org) is on hold until Xcode has improved IBDesignable
 compatibility with framework views. If you are interested in checking it out or helping, IBView
 has a [cocoapods branch](https://github.com/jetpackpilots/IBView/tree/cocoapods) for testing.
+
+## Projects Using IBView
+
+If you use IBView in your project, please consider adding a link to your app [to this thread](https://github.com/jetpackpilots/IBView/issues/1).
 
 ## Author
 
