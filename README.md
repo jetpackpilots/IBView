@@ -65,6 +65,12 @@ Using IBView is very straightforward and always follows these basic steps:
 
 That's it, you're done!
 
+## Programmatic Instantiation
+
+It is also possible to initialize your IBView subclasses in code. Simply use `initWithFrame:` as
+you normally would for a view, and as expected, the `nibName` property will default to the name
+of the class.
+
 ## A Note About Delegation
 
 When utilizing IBView it quickly becomes clear that you are no longer able to make `IBOutlet`

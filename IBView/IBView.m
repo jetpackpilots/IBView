@@ -26,9 +26,9 @@
 
 @interface IBView ()
 
+@property (assign, nonatomic, getter=isReadyForNibView) BOOL readyForNibView;
 @property (strong, nonatomic) id nibView;
 @property (strong, nonatomic) NSString *nibNameForInterfaceBuilder;
-@property (assign, nonatomic) BOOL awokeFromNib;
 
 @end
 
@@ -48,9 +48,7 @@
 {
     if (nibName != _nibName) {
         _nibName = [nibName copy];
-        if (self.awokeFromNib) {
-            [self nibNameDidChange];
-        }
+        [self nibNameDidChange];
     }
 }
 
@@ -58,6 +56,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        self.readyForNibView = YES;
         [self nibNameDidChange];
     }
     return self;
@@ -74,15 +73,15 @@
 - (void)awakeFromNib
 {
     [super awakeFromNib];
-    if (! self.awokeFromNib) {
-        self.awokeFromNib = YES;
+    if (! self.isReadyForNibView) {
+        self.readyForNibView = YES;
         [self nibNameDidChange];
     }
 }
 
 - (void)nibNameDidChange
 {
-    if (! [self.nibName isEqualToString:@"IBView"]) {
+    if (self.isReadyForNibView && (! [self.nibName isEqualToString:@"IBView"])) {
         [self.nibView removeFromSuperview];
         self.nibView = [self nibViewWithNibName:self.nibName];
         if (self.nibView) {
