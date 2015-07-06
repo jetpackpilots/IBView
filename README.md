@@ -133,7 +133,7 @@ the `nibName` property. The naming convention for the nibs is entirely up to you
 
 ## Class Compatibility
 
-*Please feel free to [submit an issue](https://github.com/jetpackpilots/IBView/issues/new) to request (or provide) additional class compatibility or incompatibility information.*
+*Please feel free to [submit an issue](https://github.com/jetpackpilots/IBView/issues/new) to discuss class compatibility and/or incompatibility.*
 
 #### iOS
 
@@ -159,6 +159,10 @@ Since IBView is distributed as a framework, the following known issues exist:
 
 - The IBView base class cannot be used as a view class directly in Interface Builder, instead IBView subclasses should always be used.
 - All IBView subclasses need to explicitly declare themselves as IBDesignable even though the base IBView class already does.
+
+## Projects Using IBView
+
+If you use IBView in your project, please consider adding a link to your app [to this thread](https://github.com/jetpackpilots/IBView/issues/1).
 
 ## Author
 
