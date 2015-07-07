@@ -192,7 +192,7 @@ If you use IBView in your project, please consider adding a link to your app [to
 ## Acknowledgments
 
 - [Garo Hussenjian](http://github.com/garohussenjian) provided invaluable help in creating IBView, thank you.
-- Thanks to [Steve Lin](http://stevenlin.net) for art direction and design guidance with IBView's logo.
+- Thanks to [Steven Lin](http://stevenlin.net) for art direction and design guidance with IBView's logo.
 
 ## License
 
