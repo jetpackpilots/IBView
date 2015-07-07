@@ -175,11 +175,11 @@ quitting Xcode and then restarting the Mac.
 
 ## Known Issues
 
-Since IBView is distributed as a framework, the following known issues exist:
+When IBView is installed via **CocoaPods**, the following known issues exist:
 
 - The IBView base class cannot be used as a view class directly in Interface Builder, instead IBView subclasses should always be used.
 - All IBView subclasses need to explicitly declare themselves as IBDesignable even though the base IBView class already does.
-- When IBView is installed via **CocoaPods** and for **Mac** apps only, `'@loader_path/../Frameworks'` (including the quotes) needs to be added as an additional path to the `Runpath Search Paths` build setting.
+- For **Mac** apps, `'@loader_path/../Frameworks'` (including the quotes) needs to be added as an additional path to the `Runpath Search Paths` build setting.
 
 ## Projects Using IBView
 
@@ -192,7 +192,7 @@ If you use IBView in your project, please consider adding a link to your app [to
 ## Acknowledgments
 
 - [Garo Hussenjian](http://github.com/garohussenjian) provided invaluable help in creating IBView, thank you.
-- Thanks to [Steven Lin](http://stevenlin.net) for art direction and design guidance with IBView's logo.
+- Thanks to [Steven Lin](http://stevenlin.net) for assistance with IBView's logo.
 
 ## License
 
