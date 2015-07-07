@@ -56,13 +56,13 @@ pod "IBView"
 
 Then install the pod using the [CocoaPods CLI](https://guides.cocoapods.org).
 
-**NOTE:** When IBView is installed via CocoaPods and for Mac apps **ONLY**, `'@loader_path/../Frameworks'` (including the quotes) needs to be added as an additional path to the `Runpath Search Paths` build setting.
+**NOTE:** When IBView is installed via **CocoaPods** and for **Mac** apps only, `'@loader_path/../Frameworks'` (including the quotes) needs to be added as an additional path to the `Runpath Search Paths` build setting.
 
 #### Manual Installation
 
 Manually add the [IBView class](https://github.com/jetpackpilots/IBView/tree/master/Pod/Classes) into your project.
 
-**NOTE:** When IBView is installed manually, use `#import "IBView.h"` in place of `#import <IBView/IBView.h>` anywhere that appears in this README.
+**NOTE:** When IBView is installed **manually**, use `#import "IBView.h"` in place of `#import <IBView/IBView.h>` anywhere that appears in this README.
 
 ## Subclassing Notes
 
@@ -101,23 +101,35 @@ For Swift, you must import `IBView` in the [bridging header](https://developer.a
 
 ## Quick Start
 
-Using IBView is very straightforward and always follows these basic steps:
+Using IBView is straightforward and always follows these basic steps:
 
 1. Create a custom view by first adding a new `IBView` subclass to the project.
 2. Declare the custom view as IBDesignable by adding `IB_DESIGNABLE` (Objective-C) or `@IBDesignable` (Swift) to the source code of the subclass.
-3. Next add a nib for the custom view to the project. Be sure to select a `View` nib in the *User Interface* section of the add file wizard.
-4. In the nib, set the class of the `File's Owner` to the name of your custom class. This will allow you to make `IBOutlet` and `IBAction` connections from the nib to your custom class. Feel free to make those connections now, or at a later time.
+3. Next add a nib for the custom view to the project. Be sure to select the `View` nib template in the *User Interface* section of the add file wizard. The name of the nib should **exactly match** the name of the class (except for the file extension of course).
+4. In the nib, set the class of the `File's Owner` placeholder to the name of your custom class. This will allow you to make `IBOutlet` and `IBAction` connections from the nib to your custom class. Feel free to make those connections now, or at a later time.
 5. Utilize the new IBView subclass in another nib or storyboard. To do this, simply add a view to another nib or storyboard and set it's class to your custom class.
-6. Now only if you did **NOT** name the nib the same name as the class, set the `nibName` property to the name of the nib. The `nibName` can be specified in Interface Builder via an IBInspectable property that shows up in the *Attributes Inspector*. The `nibName` property can also be assigned in code, by either setting or overriding the property. `IBView` defaults the `nibName` property to the name of the class itself, so it is completely fine to leave it blank or unassigned to use the default name.
-7. Still in the other nib or storyboard, you should now see a preview of the custom view's nib contents.
 
-That's it, you're done!
+That's it, you're done! In this other nib or storyboard, you should see a preview of the custom view's nib contents.
 
 ## Programmatic Instantiation
 
-It is also possible to initialize your IBView subclasses in code. Simply use `initWithFrame:` as
-you normally would for a view. As expected, the `nibName` property will default to the name of
-the class.
+It is also possible to initialize your IBView subclasses in code by using the designated initializer
+`initWithNibName:`. If you pass `nil`, the `nibName` property will default to the name of the class.
+
+It is also possible to initialize your IBView subclasses with `initWithFrame:`. Using this method,
+the `nibName` property will default to the name of the class.
+
+## Advanced Usage
+
+IBView supports multiple nib files for a custom view. In other words, you may create several nib
+files for a particular IBView subclass and then switch between them at runtime by simply changing
+the `nibName` property. The naming convention for the nibs is entirely up to you.
+
+Also, the `nibName` can be specified in Interface Builder via an IBInspectable property that shows
+up in the *Attributes Inspector*. When left blank or unassigned, `IBView` defaults the `nibName`
+property to the name of the class itself, so it is completely fine to leave it blank or unassigned
+to use the default name. But you can set it to the name of another nib when you have a specific
+use for that.
 
 ## A Note About Delegation
 
@@ -136,12 +148,6 @@ custom view's delegate and will then implement the protocol methods. Note that t
 can be set as the view's delegate in code or with a connection in Interface Builder.
 
 See [Working with Protocols](https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/WorkingwithProtocols/WorkingwithProtocols.html) for more information.
-
-## Advanced Usage
-
-IBView supports multiple nib files for a custom view. In other words, you may create several nib
-files for a particular IBView subclass and then switch between them at runtime by simply changing
-the `nibName` property. The naming convention for the nibs is entirely up to you.
 
 ## Class Compatibility
 
@@ -173,7 +179,7 @@ Since IBView is distributed as a framework, the following known issues exist:
 
 - The IBView base class cannot be used as a view class directly in Interface Builder, instead IBView subclasses should always be used.
 - All IBView subclasses need to explicitly declare themselves as IBDesignable even though the base IBView class already does.
-- When IBView is installed via CocoaPods and for Mac apps **ONLY**, `'@loader_path/../Frameworks'` (including the quotes) needs to be added as an additional path to the `Runpath Search Paths` build setting.
+- When IBView is installed via **CocoaPods** and for **Mac** apps only, `'@loader_path/../Frameworks'` (including the quotes) needs to be added as an additional path to the `Runpath Search Paths` build setting.
 
 ## Projects Using IBView
 
@@ -186,6 +192,7 @@ If you use IBView in your project, please consider adding a link to your app [to
 ## Acknowledgments
 
 - [Garo Hussenjian](http://github.com/garohussenjian) provided invaluable help in creating IBView, thank you.
+- Thanks to [Steve Lin](http://stevenlin.net) for art direction and design guidance with IBView's logo.
 
 ## License
 
