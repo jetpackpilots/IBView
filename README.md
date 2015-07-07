@@ -2,9 +2,14 @@
   <img src="https://raw.githubusercontent.com/jetpackpilots/IBView/assets/IBView.png" alt="IBView" title="IBView">
 </p>
 
-A no-nonsense view subclass to use nibs inside other nibs and storyboards, with Interface Builder live-previews.
+[![CI Status](http://img.shields.io/travis/JetpackPilots/IBView.svg?style=flat)](https://travis-ci.org/JetpackPilots/IBView)
+[![Version](https://img.shields.io/cocoapods/v/IBView.svg?style=flat)](http://cocoapods.org/pods/IBView)
+[![License](https://img.shields.io/cocoapods/l/IBView.svg?style=flat)](http://cocoapods.org/pods/IBView)
+[![Platform](https://img.shields.io/cocoapods/p/IBView.svg?style=flat)](http://cocoapods.org/pods/IBView)
 
-Supports UIView, NSView, IBDesignable, IBInspectable, multiple-nesting and further subclassing.
+A no-nonsense view subclass to use nibs inside other nibs and storyboards,
+with Interface Builder live-previews. Supports UIView, NSView, IBDesignable,
+IBInspectable, multiple-nesting and further subclassing.
 
 ## Purpose
 
@@ -29,7 +34,7 @@ contents of your custom view's interface.
 
 ## Requirements
 
-- iOS 7.0+ / Mac OS X 10.8+
+- iOS 8.0+ / Mac OS X 10.9+
 - Xcode 6.3
 
 ## Instructions
@@ -38,18 +43,48 @@ Detailed instructions with screenshots [are available in the wiki](https://githu
 
 ## Installation
 
-Manually add the [IBView class](https://github.com/jetpackpilots/IBView/tree/master/IBView) into your iOS or Mac project.
+IBView is available through [CocoaPods](http://cocoapods.org). Add `IBView` to your Podfile and be sure to use frameworks:
 
-*NOTE: IBView is not currently available via [CocoaPods](http://cocoapods.org), see [known issues](#known-issues) for more information.*
+```ruby
+use_frameworks!
+
+pod "IBView"
+```
 
 ## Subclassing Notes
 
 Subclassing IBView is supported in both **Objective-C** and **Swift**.
 
-For Swift, be sure to import `IBView` in the [bridging header](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html):
+In either case, all subclasses need to explicitly declare themselves as IBDesignable.
+
+#### Objective-C Example
 
 ```
-#import "IBView.h"
+#import <IBView/IBView.h>
+
+IB_DESIGNABLE
+
+@interface CustomView : IBView
+@end
+
+@implementation CustomView
+@end
+```
+
+#### Swift Example
+
+```Swift
+import UIKit
+import IBView
+
+@IBDesignable class CustomView: IBView {
+}
+```
+
+And for Swift, be sure to also import `IBView` in the [bridging header](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html):
+
+```
+#import <IBView/IBView.h>
 ```
 
 ## Quick Start
@@ -57,11 +92,12 @@ For Swift, be sure to import `IBView` in the [bridging header](https://developer
 Using IBView is very straightforward and always follows these basic steps:
 
 1. Create a custom view by first adding a new `IBView` subclass to the project.
-2. Next add a nib for the custom view to the project. Be sure to select a `View` nib in the *User Interface* section of the add file wizard.
-3. In the nib, set the class of the `File's Owner` to the name of your custom class. This will allow you to make `IBOutlet` and `IBAction` connections from the nib to your custom class. Feel free to make those connections now, or at a later time.
-4. Utilize the new IBView subclass in another nib or storyboard. To do this, simply add a view to another nib or storyboard and set it's class to your custom class.
-5. Now only if you did **NOT** name the nib the same name as the class, set the `nibName` property to the name of the nib. The `nibName` can be specified in Interface Builder via an IBInspectable property that shows up in the *Attributes Inspector*. The `nibName` property can also be assigned in code, by either setting or overriding the property. `IBView` defaults the `nibName` property to the name of the class itself, so it is completely fine to leave it blank or unassigned to use the default name.
-6. Still in the other nib or storyboard, you should now see a preview of the custom view's nib contents.
+2. Declare the custom view as IBDesignable by adding `IB_DESIGNABLE` (Objective-C) or `@IBDesignable` (Swift) to the source code of the subclass.
+3. Next add a nib for the custom view to the project. Be sure to select a `View` nib in the *User Interface* section of the add file wizard.
+4. In the nib, set the class of the `File's Owner` to the name of your custom class. This will allow you to make `IBOutlet` and `IBAction` connections from the nib to your custom class. Feel free to make those connections now, or at a later time.
+5. Utilize the new IBView subclass in another nib or storyboard. To do this, simply add a view to another nib or storyboard and set it's class to your custom class.
+6. Now only if you did **NOT** name the nib the same name as the class, set the `nibName` property to the name of the nib. The `nibName` can be specified in Interface Builder via an IBInspectable property that shows up in the *Attributes Inspector*. The `nibName` property can also be assigned in code, by either setting or overriding the property. `IBView` defaults the `nibName` property to the name of the class itself, so it is completely fine to leave it blank or unassigned to use the default name.
+7. Still in the other nib or storyboard, you should now see a preview of the custom view's nib contents.
 
 That's it, you're done!
 
@@ -119,11 +155,10 @@ Select `Refresh All Views` from the `Editor` menu in Xcode whenever the live-pre
 
 ## Known Issues
 
-- IBView's IBDesignable functionality in Xcode's Interface Builder is intermittent when IBView
-is distributed as a framework. Therefore manual installation is recommended for now, and IBView
-distribution via [CocoaPods](http://cocoapods.org) is on hold until Xcode has improved IBDesignable
-compatibility with framework views. If you are interested in checking it out or helping, IBView
-has a [cocoapods branch](https://github.com/jetpackpilots/IBView/tree/cocoapods) for testing.
+Since IBView is distributed as a framework, the following known issues exist:
+
+- The IBView base class cannot be used as a view class directly in Interface Builder, instead IBView subclasses should always be used.
+- All IBView subclasses need to explicitly declare themselves as IBDesignable even though the base IBView class already does.
 
 ## Projects Using IBView
 
