@@ -28,28 +28,41 @@ contents of your custom view's interface.
 - Change a view's user interface at runtime simply by changing it's nib name.
 - A/B test two different UI designs for a view.
 - Set a view's nib based on the device or other runtime attributes.
-- Reuse a custom view throughout an app's UI for a consistent user experience.
-- Share a user interface implementation between a view and a table/collection view.
+- Use a custom view throughout an app's UI for a consistent user experience.
+- Share an interface implementation between a view and a table/collection view.
 - To avoid excessive view logic in controllers, pair each view controller with an IBView subclass with it's own nib.
 
 ## Requirements
 
-- iOS 8.0+ / Mac OS X 10.9+
-- Xcode 6.3
+##### When installed via CocoaPods:
+- UIView: iOS 8.0+ / NSView: Mac OS X 10.9+
 
-## Instructions
-
-Detailed instructions with screenshots [are available in the wiki](https://github.com/jetpackpilots/IBView/wiki/IBView-Instructions).
+##### When installed manually:
+- UIView: iOS 7.0+ / NSView: Mac OS X 10.8+
 
 ## Installation
 
-IBView is available through [CocoaPods](http://cocoapods.org). Add `IBView` to your Podfile and be sure to use frameworks:
+IBView can be used in iOS or Mac projects. Installation is either done via [CocoaPods](http://cocoapods.org) **OR** manually.
+
+#### CocoaPods Installation
+
+Add `IBView` to your Podfile and be sure to use frameworks:
 
 ```ruby
 use_frameworks!
 
 pod "IBView"
 ```
+
+Then install the pod using the [CocoaPods CLI](https://guides.cocoapods.org).
+
+**NOTE:** When IBView is installed via CocoaPods and for Mac apps **ONLY**, `'@loader_path/../Frameworks'` (including the quotes) needs to be added as an additional path to the `Runpath Search Paths` build setting.
+
+#### Manual Installation
+
+Manually add the [IBView class](https://github.com/jetpackpilots/IBView/tree/master/Pod/Classes) into your project.
+
+**NOTE:** When IBView is installed manually, use `#import "IBView.h"` in place of `#import <IBView/IBView.h>` anywhere that appears in this README.
 
 ## Subclassing Notes
 
@@ -74,14 +87,13 @@ IB_DESIGNABLE
 #### Swift Example
 
 ```Swift
-import UIKit
 import IBView
 
 @IBDesignable class CustomView: IBView {
 }
 ```
 
-And for Swift, be sure to also import `IBView` in the [bridging header](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html):
+For Swift, you must import `IBView` in the [bridging header](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html):
 
 ```
 #import <IBView/IBView.h>
@@ -104,8 +116,8 @@ That's it, you're done!
 ## Programmatic Instantiation
 
 It is also possible to initialize your IBView subclasses in code. Simply use `initWithFrame:` as
-you normally would for a view, and as expected, the `nibName` property will default to the name
-of the class.
+you normally would for a view. As expected, the `nibName` property will default to the name of
+the class.
 
 ## A Note About Delegation
 
@@ -151,7 +163,9 @@ NSViewController | It's view can actaully be an IBView subclass, but unfortunate
 
 ## Troubleshooting
 
-Select `Refresh All Views` from the `Editor` menu in Xcode whenever the live-previews get out of sync.
+Select `Refresh All Views` from the `Editor` menu in Xcode whenever the live-previews get out
+of sync. Sometimes you might need to resort to closing the Xcode project, deleting derived data,
+quitting Xcode and then restarting the Mac.
 
 ## Known Issues
 
@@ -159,6 +173,7 @@ Since IBView is distributed as a framework, the following known issues exist:
 
 - The IBView base class cannot be used as a view class directly in Interface Builder, instead IBView subclasses should always be used.
 - All IBView subclasses need to explicitly declare themselves as IBDesignable even though the base IBView class already does.
+- When IBView is installed via CocoaPods and for Mac apps **ONLY**, `'@loader_path/../Frameworks'` (including the quotes) needs to be added as an additional path to the `Runpath Search Paths` build setting.
 
 ## Projects Using IBView
 
