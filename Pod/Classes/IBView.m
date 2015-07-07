@@ -26,6 +26,7 @@
 
 @interface IBView ()
 
+@property (strong, nonatomic) NSArray *nibObjects;
 @property (strong, nonatomic) id privateNibView;
 @property (assign, nonatomic, getter=isReadyForNib) BOOL readyForNib;
 @property (strong, nonatomic) NSString *nibNameForInterfaceBuilder;
@@ -34,12 +35,17 @@
 
 @implementation IBView
 
++ (NSString *)nibName
+{
+    return [NSStringFromClass(self) componentsSeparatedByString:@"."].lastObject;
+}
+
 @synthesize nibName = _nibName;
 
 - (NSString *)nibName
 {
     if (! _nibName) {
-        _nibName = [NSStringFromClass([self class]) componentsSeparatedByString:@"."].lastObject;
+        _nibName = [self.class nibName];
     }
     return _nibName;
 }
@@ -70,19 +76,25 @@
 
 #endif
 
-- (void)nibViewDidChange
+- (instancetype)initWithNibName:(NSString *)nibName
 {
+#if TARGET_OS_IPHONE
+    self = [super initWithFrame:CGRectZero];
+#else
+    self = [super initWithFrame:NSZeroRect];
+#endif
+    if (self) {
+        self.readyForNib = YES;
+        self.nibName = nibName ?: [self.class nibName];
+    }
+    return self;
 }
 
 #if ! TARGET_INTERFACE_BUILDER
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
-    self = [super initWithFrame:frame];
-    if (self) {
-        self.readyForNib = YES;
-    }
-    return self;
+    return [self initWithNibName:nil];
 }
 
 #endif
@@ -108,16 +120,33 @@
 - (void)nibNameDidChange
 {
     if (! [self.nibName isEqualToString:@"IBView"]) {
+
         [self.privateNibView removeFromSuperview];
-        self.privateNibView = [self nibViewWithNibName:self.nibName];
+
+        self.nibObjects = [self nibObjectsWithNibName:self.nibName];
+
+#if TARGET_OS_IPHONE
+        for (id object in self.nibObjects) {
+            if ([object isKindOfClass:[UIView class]]) {
+                self.privateNibView = object;
+            }
+        }
+#else
+        for (id object in self.nibObjects) {
+            if ([object isKindOfClass:[NSView class]]) {
+                self.privateNibView = object;
+            }
+        }
+#endif
+
         if (self.privateNibView) {
             [self addNibView:self.privateNibView];
-            [self nibViewDidChange];
         }
+
     }
 }
 
-- (id)nibViewWithNibName:(NSString *)nibName
+- (NSArray *)nibObjectsWithNibName:(NSString *)nibName
 {
     static NSMutableDictionary *nibs;
     static dispatch_once_t onceToken;
@@ -156,11 +185,7 @@
             }
         }
 
-        for (id object in objects) {
-            if ([object isKindOfClass:[UIView class]]) {
-                return object;
-            }
-        }
+        return objects;
 
 #else
 
@@ -186,11 +211,7 @@
             }
         }
 
-        for (id object in objects) {
-            if ([object isKindOfClass:[NSView class]]) {
-                return object;
-            }
-        }
+        return objects;
 
 #endif
 
@@ -201,21 +222,51 @@
 
 - (void)addNibView:(id)nibView
 {
-    [nibView setTranslatesAutoresizingMaskIntoConstraints:NO];
 #if TARGET_OS_IPHONE
-    [self insertSubview:nibView atIndex:0];
+    UIView *view;
+    if ([nibView isKindOfClass:[UIView class]]) {
+        view = nibView;
+    }
 #else
-    [self addSubview:nibView positioned:NSWindowBelow relativeTo:nil];
+    NSView *view;
+    if ([nibView isKindOfClass:[NSView class]]) {
+        view = nibView;
+    }
 #endif
-    NSDictionary *views = NSDictionaryOfVariableBindings(nibView);
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[nibView]|"
-                                                                 options:0
-                                                                 metrics:nil
-                                                                   views:views]];
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[nibView]|"
-                                                                 options:0
-                                                                 metrics:nil
-                                                                   views:views]];
+
+    if (view) {
+
+#if TARGET_OS_IPHONE
+        if (CGRectEqualToRect(self.frame, CGRectZero)) {
+            self.frame = CGRectMake(0.0, 0.0, CGRectGetWidth(view.frame), CGRectGetHeight(view.frame));
+        }
+#else
+        if (NSEqualRects(self.frame, NSZeroRect)) {
+            self.frame = NSMakeRect(0.0, 0.0, NSWidth(view.frame), NSHeight(view.frame));
+        }
+#endif
+
+        [view setTranslatesAutoresizingMaskIntoConstraints:NO];
+
+#if TARGET_OS_IPHONE
+        [self insertSubview:view atIndex:0];
+#else
+        [self addSubview:view positioned:NSWindowBelow relativeTo:nil];
+#endif
+
+        NSDictionary *views = NSDictionaryOfVariableBindings(view);
+
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|"
+                                                                     options:0
+                                                                     metrics:nil
+                                                                       views:views]];
+
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view]|"
+                                                                     options:0
+                                                                     metrics:nil
+                                                                       views:views]];
+
+    }
 }
 
 @end

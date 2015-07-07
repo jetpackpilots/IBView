@@ -35,7 +35,7 @@ IB_DESIGNABLE
 @property (copy, nonatomic) IBInspectable NSString *nibName;
 @property (readonly) UIView *nibView;
 
-- (void)nibViewDidChange;
+- (instancetype)initWithNibName:(NSString *)nibName;
 
 @end
 
@@ -50,7 +50,7 @@ IB_DESIGNABLE
 @property (copy, nonatomic) IBInspectable NSString *nibName;
 @property (readonly) NSView *nibView;
 
-- (void)nibViewDidChange;
+- (instancetype)initWithNibName:(NSString *)nibName;
 
 @end
 
