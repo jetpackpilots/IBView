@@ -33,6 +33,9 @@ IB_DESIGNABLE
 @interface IBView : UIView
 
 @property (copy, nonatomic) IBInspectable NSString *nibName;
+@property (readonly) UIView *nibView;
+
+- (void)nibViewDidChange;
 
 @end
 
@@ -45,6 +48,9 @@ IB_DESIGNABLE
 @interface IBView : NSView
 
 @property (copy, nonatomic) IBInspectable NSString *nibName;
+@property (readonly) NSView *nibView;
+
+- (void)nibViewDidChange;
 
 @end
 
