@@ -26,8 +26,8 @@
 
 @interface IBView ()
 
-@property (assign, nonatomic, getter=isReadyForNibView) BOOL readyForNibView;
-@property (strong, nonatomic) id nibView;
+@property (strong, nonatomic) id privateNibView;
+@property (assign, nonatomic, getter=isReadyForNib) BOOL readyForNib;
 @property (strong, nonatomic) NSString *nibNameForInterfaceBuilder;
 
 @end
@@ -48,19 +48,44 @@
 {
     if (nibName != _nibName) {
         _nibName = [nibName copy];
-        [self nibNameDidChange];
+        if (self.isReadyForNib) {
+            [self nibNameDidChange];
+        }
     }
 }
+
+#if TARGET_OS_IPHONE
+
+- (UIView *)nibView
+{
+    return self.privateNibView;
+}
+
+#else
+
+- (NSView *)nibView
+{
+    return self.privateNibView;
+}
+
+#endif
+
+- (void)nibViewDidChange
+{
+}
+
+#if ! TARGET_INTERFACE_BUILDER
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.readyForNibView = YES;
-        [self nibNameDidChange];
+        self.readyForNib = YES;
     }
     return self;
 }
+
+#endif
 
 - (void)prepareForInterfaceBuilder
 {
@@ -73,19 +98,21 @@
 - (void)awakeFromNib
 {
     [super awakeFromNib];
-    if (! self.isReadyForNibView) {
-        self.readyForNibView = YES;
+
+    if (! self.isReadyForNib) {
+        self.readyForNib = YES;
         [self nibNameDidChange];
     }
 }
 
 - (void)nibNameDidChange
 {
-    if (self.isReadyForNibView && (! [self.nibName isEqualToString:@"IBView"])) {
-        [self.nibView removeFromSuperview];
-        self.nibView = [self nibViewWithNibName:self.nibName];
-        if (self.nibView) {
-            [self addNibView:self.nibView];
+    if (! [self.nibName isEqualToString:@"IBView"]) {
+        [self.privateNibView removeFromSuperview];
+        self.privateNibView = [self nibViewWithNibName:self.nibName];
+        if (self.privateNibView) {
+            [self addNibView:self.privateNibView];
+            [self nibViewDidChange];
         }
     }
 }
@@ -105,33 +132,23 @@
         NSArray *objects;
         id nib = nibs[nibName];
 
-        if (nib) {
 #if TARGET_OS_IPHONE
+
+        if (nib) {
             objects = [nib instantiateWithOwner:self options:nil];
-#else
-            [nib instantiateWithOwner:self topLevelObjects:&objects];
-#endif
         }
         else {
             NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-#if TARGET_OS_IPHONE
             nib = [UINib nibWithNibName:nibName bundle:bundle];
-#else
-            nib = [[NSNib alloc] initWithNibNamed:nibName bundle:bundle];
-#endif
             if (nib) {
-#if TARGET_OS_IPHONE
+#if TARGET_INTERFACE_BUILDER
                 @try {
                     objects = [nib instantiateWithOwner:self options:nil];
                 }
                 @catch (NSException *exception) {
                 }
 #else
-                @try {
-                    [nib instantiateWithOwner:self topLevelObjects:&objects];
-                }
-                @catch (NSException *exception) {
-                }
+                objects = [nib instantiateWithOwner:self options:nil];
 #endif
                 if (objects.count) {
                     nibs[nibName] = nib;
@@ -140,16 +157,42 @@
         }
 
         for (id object in objects) {
-#if TARGET_OS_IPHONE
             if ([object isKindOfClass:[UIView class]]) {
                 return object;
             }
+        }
+
 #else
+
+        if (nib) {
+            [nib instantiateWithOwner:self topLevelObjects:&objects];
+        }
+        else {
+            NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+            nib = [[NSNib alloc] initWithNibNamed:nibName bundle:bundle];
+            if (nib) {
+#if TARGET_INTERFACE_BUILDER
+                @try {
+                    [nib instantiateWithOwner:self topLevelObjects:&objects];
+                }
+                @catch (NSException *exception) {
+                }
+#else
+                [nib instantiateWithOwner:self topLevelObjects:&objects];
+#endif
+                if (objects.count) {
+                    nibs[nibName] = nib;
+                }
+            }
+        }
+
+        for (id object in objects) {
             if ([object isKindOfClass:[NSView class]]) {
                 return object;
             }
-#endif
         }
+
+#endif
 
     }
 
