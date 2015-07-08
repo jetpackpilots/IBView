@@ -111,14 +111,6 @@ Using IBView is straightforward and always follows these basic steps:
 
 That's it, you're done! In this other nib or storyboard, you should see a preview of the custom view's nib contents.
 
-## Programmatic Instantiation
-
-It is also possible to initialize your IBView subclasses in code by using the designated initializer
-`initWithNibName:`. If you pass `nil`, the `nibName` property will default to the name of the class.
-
-It is also possible to initialize your IBView subclasses with `initWithFrame:`. Using this method,
-the `nibName` property will default to the name of the class.
-
 ## Advanced Usage
 
 IBView supports multiple nib files for a custom view. In other words, you may create several nib
@@ -167,6 +159,12 @@ Class            | Notes
 -----            | -----
 NSViewController | It's view can actaully be an IBView subclass, but unfortunately live-previews do **NOT** work. So instead, add an IBView subclass as a subview of the NSViewController's view.
 
+## Programmatic Instantiation
+
+Although not the typical use for IBView, it is also possible to initialize your IBView subclasses
+in code by using the designated initializer `initWithNibName:`. If you pass `nil`, the `nibName`
+property will default to the name of the class.
+
 ## Troubleshooting
 
 Select `Refresh All Views` from the `Editor` menu in Xcode whenever the live-previews get out
@@ -192,7 +190,7 @@ If you use IBView in your project, please consider adding a link to your app [to
 ## Acknowledgments
 
 - [Garo Hussenjian](http://github.com/garohussenjian) provided invaluable help in creating IBView, thank you.
-- Thanks to [Steven Lin](http://stevenlin.net) for assistance with IBView's logo.
+- Thanks to [Steven Lin](http://stevenlin.net) for assistance with the IBView logo.
 
 ## License
 
