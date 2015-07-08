@@ -27,7 +27,7 @@
 @interface IBView ()
 
 @property (strong, nonatomic) NSArray *nibObjects;
-@property (strong, nonatomic) id privateNibView;
+@property (strong, nonatomic) id nibView;
 @property (assign, nonatomic, getter=isReadyForNib) BOOL readyForNib;
 @property (strong, nonatomic) NSString *nibNameForInterfaceBuilder;
 
@@ -62,16 +62,16 @@
 
 #if TARGET_OS_IPHONE
 
-- (UIView *)nibView
+- (UIView *)embeddedView
 {
-    return self.privateNibView;
+    return self.nibView;
 }
 
 #else
 
-- (NSView *)nibView
+- (NSView *)embeddedView
 {
-    return self.privateNibView;
+    return self.nibView;
 }
 
 #endif
@@ -85,7 +85,7 @@
 #endif
     if (self) {
         self.readyForNib = YES;
-        self.nibName = nibName ?: [self.class nibName];
+        self.nibName = [nibName copy] ?: [self.class nibName];
     }
     return self;
 }
@@ -121,26 +121,26 @@
 {
     if (! [self.nibName isEqualToString:@"IBView"]) {
 
-        [self.privateNibView removeFromSuperview];
+        [self.nibView removeFromSuperview];
 
         self.nibObjects = [self nibObjectsWithNibName:self.nibName];
 
 #if TARGET_OS_IPHONE
         for (id object in self.nibObjects) {
             if ([object isKindOfClass:[UIView class]]) {
-                self.privateNibView = object;
+                self.nibView = object;
             }
         }
 #else
         for (id object in self.nibObjects) {
             if ([object isKindOfClass:[NSView class]]) {
-                self.privateNibView = object;
+                self.nibView = object;
             }
         }
 #endif
 
-        if (self.privateNibView) {
-            [self addNibView:self.privateNibView];
+        if (self.nibView) {
+            [self embedNibView:self.nibView];
         }
 
     }
@@ -220,7 +220,7 @@
     return nil;
 }
 
-- (void)addNibView:(id)nibView
+- (void)embedNibView:(id)nibView
 {
 #if TARGET_OS_IPHONE
     UIView *view;
