@@ -26,10 +26,10 @@
 
 @interface IBView ()
 
-@property (strong, nonatomic) NSArray *nibObjects;
-@property (strong, nonatomic) id nibView;
 @property (assign, nonatomic, getter=isReadyForNib) BOOL readyForNib;
 @property (strong, nonatomic) NSString *nibNameForInterfaceBuilder;
+@property (strong, nonatomic) id nibView;
+@property (strong, nonatomic) NSArray *nibObjects;
 
 @end
 
@@ -52,7 +52,7 @@
 
 - (void)setNibName:(NSString *)nibName
 {
-    if (nibName != _nibName) {
+    if (! [nibName isEqualToString:_nibName]) {
         _nibName = [nibName copy];
         if (self.isReadyForNib) {
             [self nibNameDidChange];
@@ -123,6 +123,7 @@
 
         [self.nibView removeFromSuperview];
 
+        self.nibView = nil;
         self.nibObjects = [self nibObjectsWithNibName:self.nibName];
 
 #if TARGET_OS_IPHONE
