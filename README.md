@@ -2,7 +2,7 @@
   <img src="https://raw.githubusercontent.com/jetpackpilots/IBView/assets/IBView.png" alt="IBView" title="IBView">
 </p>
 
-[![CI Status](http://img.shields.io/travis/JetpackPilots/IBView.svg?style=flat)](https://travis-ci.org/JetpackPilots/IBView)
+[![CI Status](http://img.shields.io/travis/jetpackpilots/IBView.svg?style=flat)](https://travis-ci.org/jetpackpilots/IBView)
 [![Version](https://img.shields.io/cocoapods/v/IBView.svg?style=flat)](http://cocoapods.org/pods/IBView)
 [![License](https://img.shields.io/cocoapods/l/IBView.svg?style=flat)](http://cocoapods.org/pods/IBView)
 [![Platform](https://img.shields.io/cocoapods/p/IBView.svg?style=flat)](http://cocoapods.org/pods/IBView)
@@ -121,7 +121,7 @@ Also, the `nibName` can be specified in Interface Builder via an IBInspectable p
 up in the *Attributes Inspector*. When left blank or unassigned, `IBView` defaults the `nibName`
 property to the name of the class itself, so it is completely fine to leave it blank or unassigned
 to use the default name. But you can set it to the name of another nib when you have a specific
-use for that.
+use for that. For example, when there is no reason to have a nib with the same name as the class.
 
 ## A Note About Delegation
 
@@ -178,6 +178,8 @@ When IBView is installed via **CocoaPods**, the following known issues exist:
 - The IBView base class cannot be used as a view class directly in Interface Builder, instead IBView subclasses should always be used.
 - All IBView subclasses need to explicitly declare themselves as IBDesignable even though the base IBView class already does.
 - For **Mac** apps, `'@loader_path/../Frameworks'` (including the quotes) needs to be added as an additional path to the `Runpath Search Paths` build setting.
+
+*Those issues do not exist when IBView is installed manually.*
 
 ## Projects Using IBView
 
