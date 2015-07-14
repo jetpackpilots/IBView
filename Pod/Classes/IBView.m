@@ -170,17 +170,9 @@
         }
         else {
             NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-            nib = [UINib nibWithNibName:nibName bundle:bundle];
-            if (nib) {
-#if TARGET_INTERFACE_BUILDER
-                @try {
-                    objects = [nib instantiateWithOwner:self options:nil];
-                }
-                @catch (NSException *exception) {
-                }
-#else
+            if ([bundle URLForResource:nibName withExtension:@"nib"]) {
+                nib = [UINib nibWithNibName:nibName bundle:bundle];
                 objects = [nib instantiateWithOwner:self options:nil];
-#endif
                 if (objects.count) {
                     nibs[nibName] = nib;
                 }
@@ -196,17 +188,9 @@
         }
         else {
             NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-            nib = [[NSNib alloc] initWithNibNamed:nibName bundle:bundle];
-            if (nib) {
-#if TARGET_INTERFACE_BUILDER
-                @try {
-                    [nib instantiateWithOwner:self topLevelObjects:&objects];
-                }
-                @catch (NSException *exception) {
-                }
-#else
+            if ([bundle URLForResource:nibName withExtension:@"nib"]) {
+                nib = [[NSNib alloc] initWithNibNamed:nibName bundle:bundle];
                 [nib instantiateWithOwner:self topLevelObjects:&objects];
-#endif
                 if (objects.count) {
                     nibs[nibName] = nib;
                 }
