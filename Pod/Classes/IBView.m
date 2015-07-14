@@ -26,8 +26,6 @@
 
 @interface IBView ()
 
-@property (assign, nonatomic, getter=isReadyForNib) BOOL readyForNib;
-@property (strong, nonatomic) NSString *nibNameForInterfaceBuilder;
 @property (strong, nonatomic) id nibView;
 @property (strong, nonatomic) NSArray *nibObjects;
 
@@ -37,7 +35,9 @@
 
 + (NSString *)nibName
 {
-    return [NSStringFromClass(self) componentsSeparatedByString:@"."].lastObject;
+    NSString *nibName = [NSStringFromClass(self) componentsSeparatedByString:@"."].lastObject;
+
+    return [nibName isEqualToString:@"IBView"] ? nil : nibName;
 }
 
 @synthesize nibName = _nibName;
@@ -54,8 +54,16 @@
 {
     if (! [nibName isEqualToString:_nibName]) {
         _nibName = [nibName copy];
-        if (self.isReadyForNib) {
-            [self nibNameDidChange];
+        if (self.nibView) {
+            [self.nibView removeFromSuperview];
+            self.nibView = nil;
+        }
+        if (_nibName.length) {
+#if TARGET_OS_IPHONE
+            [self setNeedsLayout];
+#else
+            self.needsLayout = YES;
+#endif
         }
     }
 }
@@ -84,46 +92,34 @@
     self = [super initWithFrame:NSZeroRect];
 #endif
     if (self) {
-        self.readyForNib = YES;
         self.nibName = [nibName copy] ?: [self.class nibName];
     }
     return self;
 }
 
-#if ! TARGET_INTERFACE_BUILDER
+#if TARGET_OS_IPHONE
 
-- (instancetype)initWithFrame:(CGRect)frame
+- (void)layoutSubviews
 {
-    return [self initWithNibName:nil];
+    [self initializeNibView];
+
+    [super layoutSubviews];
+}
+
+#else
+
+- (void)layout
+{
+    [self initializeNibView];
+
+    [super layout];
 }
 
 #endif
 
-- (void)prepareForInterfaceBuilder
+- (void)initializeNibView
 {
-    if (! [self.nibName isEqualToString:self.nibNameForInterfaceBuilder]) {
-        self.nibNameForInterfaceBuilder = self.nibName;
-        [self nibNameDidChange];
-    }
-}
-
-- (void)awakeFromNib
-{
-    [super awakeFromNib];
-
-    if (! self.isReadyForNib) {
-        self.readyForNib = YES;
-        [self nibNameDidChange];
-    }
-}
-
-- (void)nibNameDidChange
-{
-    [self.nibView removeFromSuperview];
-
-    self.nibView = nil;
-
-    if (! [self.nibName isEqualToString:@"IBView"]) {
+    if (! self.nibView) {
 
         self.nibObjects = [self nibObjectsWithNibName:self.nibName];
 
@@ -143,6 +139,9 @@
 
         if (self.nibView) {
             [self embedNibView:self.nibView];
+#if ! TARGET_OS_IPHONE
+            [self.nibView layoutSubtreeIfNeeded];
+#endif
         }
 
     }
