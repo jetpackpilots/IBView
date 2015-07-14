@@ -26,8 +26,13 @@
 
 @interface IBView ()
 
-@property (strong, nonatomic) id privateContentView;
-@property (strong, nonatomic) NSArray *nibObjects;
+#if TARGET_OS_IPHONE
+@property (strong, nonatomic) UIView *contentView;
+#else
+@property (strong, nonatomic) NSView *contentView;
+#endif
+
+@property (readonly) NSArray *nibObjects;
 
 @end
 
@@ -47,17 +52,23 @@
     if (! _nibName) {
         _nibName = [self.class nibName];
     }
+
     return _nibName;
 }
 
 - (void)setNibName:(NSString *)nibName
 {
+    nibName = [nibName stringByDeletingPathExtension];
+
     if (! [nibName isEqualToString:_nibName]) {
+
         _nibName = [nibName copy];
-        if (self.privateContentView) {
-            [self.privateContentView removeFromSuperview];
-            self.privateContentView = nil;
+
+        if (self.contentView) {
+            [self.contentView removeFromSuperview];
+            self.contentView = nil;
         }
+
         if (_nibName.length) {
 #if TARGET_OS_IPHONE
             [self setNeedsLayout];
@@ -65,24 +76,65 @@
             self.needsLayout = YES;
 #endif
         }
+
     }
 }
 
+- (NSArray *)nibObjects
+{
+    static NSMutableDictionary *nibs;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        nibs = [NSMutableDictionary dictionary];
+    });
+
+    if (self.nibName.length) {
+
+        NSArray *objects;
+        id nib = nibs[self.nibName];
+
 #if TARGET_OS_IPHONE
 
-- (UIView *)contentView
-{
-    return self.privateContentView;
-}
+        if (nib) {
+            objects = [nib instantiateWithOwner:self options:nil];
+        }
+        else {
+            NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+            if ([bundle URLForResource:self.nibName withExtension:@"nib"]) {
+                nib = [UINib nibWithNibName:self.nibName bundle:bundle];
+                objects = [nib instantiateWithOwner:self options:nil];
+                if (objects.count) {
+                    nibs[self.nibName] = nib;
+                }
+            }
+        }
+
+        return objects;
 
 #else
 
-- (NSView *)contentView
-{
-    return self.privateContentView;
-}
+        if (nib) {
+            [nib instantiateWithOwner:self topLevelObjects:&objects];
+        }
+        else {
+            NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+            if ([bundle URLForResource:self.nibName withExtension:@"nib"]) {
+                nib = [[NSNib alloc] initWithNibNamed:self.nibName bundle:bundle];
+                [nib instantiateWithOwner:self topLevelObjects:&objects];
+                if (objects.count) {
+                    nibs[self.nibName] = nib;
+                }
+            }
+        }
+
+        return objects;
 
 #endif
+
+    }
+
+    return nil;
+}
 
 - (instancetype)initWithNibName:(NSString *)nibName
 {
@@ -101,7 +153,17 @@
 
 - (void)layoutSubviews
 {
-    [self initializeNibView];
+    if (! self.contentView) {
+        for (id object in [self nibObjects]) {
+            if ([object isKindOfClass:[UIView class]]) {
+                self.contentView = object;
+                break;
+            }
+        }
+        if (self.contentView) {
+            [self addContentView];
+        }
+    }
 
     [super layoutSubviews];
 }
@@ -110,112 +172,35 @@
 
 - (void)layout
 {
-    [self initializeNibView];
+    if (! self.contentView) {
+        for (id object in [self nibObjects]) {
+            if ([object isKindOfClass:[NSView class]]) {
+                self.contentView = object;
+                break;
+            }
+        }
+        if (self.contentView) {
+            [self addContentView];
+            [self.contentView layoutSubtreeIfNeeded];
+        }
+    }
 
     [super layout];
 }
 
 #endif
 
-- (void)initializeNibView
-{
-    if (! self.privateContentView) {
-
-        self.nibObjects = [self nibObjectsWithNibName:self.nibName];
-
-#if TARGET_OS_IPHONE
-        for (id object in self.nibObjects) {
-            if ([object isKindOfClass:[UIView class]]) {
-                self.privateContentView = object;
-            }
-        }
-#else
-        for (id object in self.nibObjects) {
-            if ([object isKindOfClass:[NSView class]]) {
-                self.privateContentView = object;
-            }
-        }
-#endif
-
-        if (self.privateContentView) {
-            [self embedNibView:self.privateContentView];
-#if ! TARGET_OS_IPHONE
-            [self.privateContentView layoutSubtreeIfNeeded];
-#endif
-        }
-
-    }
-}
-
-- (NSArray *)nibObjectsWithNibName:(NSString *)nibName
-{
-    static NSMutableDictionary *nibs;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        nibs = [NSMutableDictionary dictionary];
-    });
-
-    nibName = [nibName stringByDeletingPathExtension];
-
-    if (nibName.length) {
-
-        NSArray *objects;
-        id nib = nibs[nibName];
-
-#if TARGET_OS_IPHONE
-
-        if (nib) {
-            objects = [nib instantiateWithOwner:self options:nil];
-        }
-        else {
-            NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-            if ([bundle URLForResource:nibName withExtension:@"nib"]) {
-                nib = [UINib nibWithNibName:nibName bundle:bundle];
-                objects = [nib instantiateWithOwner:self options:nil];
-                if (objects.count) {
-                    nibs[nibName] = nib;
-                }
-            }
-        }
-
-        return objects;
-
-#else
-
-        if (nib) {
-            [nib instantiateWithOwner:self topLevelObjects:&objects];
-        }
-        else {
-            NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-            if ([bundle URLForResource:nibName withExtension:@"nib"]) {
-                nib = [[NSNib alloc] initWithNibNamed:nibName bundle:bundle];
-                [nib instantiateWithOwner:self topLevelObjects:&objects];
-                if (objects.count) {
-                    nibs[nibName] = nib;
-                }
-            }
-        }
-
-        return objects;
-
-#endif
-
-    }
-
-    return nil;
-}
-
-- (void)embedNibView:(id)nibView
+- (void)addContentView
 {
 #if TARGET_OS_IPHONE
     UIView *view;
-    if ([nibView isKindOfClass:[UIView class]]) {
-        view = nibView;
+    if ([self.contentView isKindOfClass:[UIView class]]) {
+        view = self.contentView;
     }
 #else
     NSView *view;
-    if ([nibView isKindOfClass:[NSView class]]) {
-        view = nibView;
+    if ([self.contentView isKindOfClass:[NSView class]]) {
+        view = self.contentView;
     }
 #endif
 

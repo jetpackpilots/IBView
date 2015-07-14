@@ -33,6 +33,7 @@ IB_DESIGNABLE
 @interface IBView : UIView
 
 @property (copy, nonatomic) IBInspectable NSString *nibName;
+
 @property (readonly) UIView *contentView;
 
 - (instancetype)initWithNibName:(NSString *)nibName;
@@ -48,6 +49,7 @@ IB_DESIGNABLE
 @interface IBView : NSView
 
 @property (copy, nonatomic) IBInspectable NSString *nibName;
+
 @property (readonly) NSView *contentView;
 
 - (instancetype)initWithNibName:(NSString *)nibName;
