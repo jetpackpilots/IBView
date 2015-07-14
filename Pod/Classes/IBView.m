@@ -119,11 +119,12 @@
 
 - (void)nibNameDidChange
 {
+    [self.nibView removeFromSuperview];
+
+    self.nibView = nil;
+
     if (! [self.nibName isEqualToString:@"IBView"]) {
 
-        [self.nibView removeFromSuperview];
-
-        self.nibView = nil;
         self.nibObjects = [self nibObjectsWithNibName:self.nibName];
 
 #if TARGET_OS_IPHONE
