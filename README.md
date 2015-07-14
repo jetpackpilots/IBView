@@ -14,7 +14,7 @@ IBInspectable, multiple-nesting and further subclassing.
 ## Purpose
 
 Storyboards and nibs are great. But they tend to be used in a very view controller centric way.
-Custom view subclasess where the UI of the view exists in it's own nib have always been possible.
+Custom view subclasses where the UI of the view exists in it's own nib have always been possible.
 The problem is that Xcode does not provide a standard implementation and you must rely on your
 own code to load the nibs. That's where IBView comes in. When subclassing IBView you can now
 design your view's user interface in a separate nib just for the view itself, while IBView takes
@@ -121,7 +121,7 @@ Also, the `nibName` can be specified in Interface Builder via an IBInspectable p
 up in the *Attributes Inspector*. When left blank or unassigned, `IBView` defaults the `nibName`
 property to the name of the class itself, so it is completely fine to leave it blank or unassigned
 to use the default name. But you can set it to the name of another nib when you have a specific
-use for that. For example, when there is no reason to have a nib with the same name as the class.
+use for that.
 
 ## A Note About Delegation
 
