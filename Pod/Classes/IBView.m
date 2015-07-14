@@ -26,7 +26,7 @@
 
 @interface IBView ()
 
-@property (strong, nonatomic) id nibView;
+@property (strong, nonatomic) id privateContentView;
 @property (strong, nonatomic) NSArray *nibObjects;
 
 @end
@@ -54,9 +54,9 @@
 {
     if (! [nibName isEqualToString:_nibName]) {
         _nibName = [nibName copy];
-        if (self.nibView) {
-            [self.nibView removeFromSuperview];
-            self.nibView = nil;
+        if (self.privateContentView) {
+            [self.privateContentView removeFromSuperview];
+            self.privateContentView = nil;
         }
         if (_nibName.length) {
 #if TARGET_OS_IPHONE
@@ -70,16 +70,16 @@
 
 #if TARGET_OS_IPHONE
 
-- (UIView *)embeddedView
+- (UIView *)contentView
 {
-    return self.nibView;
+    return self.privateContentView;
 }
 
 #else
 
-- (NSView *)embeddedView
+- (NSView *)contentView
 {
-    return self.nibView;
+    return self.privateContentView;
 }
 
 #endif
@@ -119,28 +119,28 @@
 
 - (void)initializeNibView
 {
-    if (! self.nibView) {
+    if (! self.privateContentView) {
 
         self.nibObjects = [self nibObjectsWithNibName:self.nibName];
 
 #if TARGET_OS_IPHONE
         for (id object in self.nibObjects) {
             if ([object isKindOfClass:[UIView class]]) {
-                self.nibView = object;
+                self.privateContentView = object;
             }
         }
 #else
         for (id object in self.nibObjects) {
             if ([object isKindOfClass:[NSView class]]) {
-                self.nibView = object;
+                self.privateContentView = object;
             }
         }
 #endif
 
-        if (self.nibView) {
-            [self embedNibView:self.nibView];
+        if (self.privateContentView) {
+            [self embedNibView:self.privateContentView];
 #if ! TARGET_OS_IPHONE
-            [self.nibView layoutSubtreeIfNeeded];
+            [self.privateContentView layoutSubtreeIfNeeded];
 #endif
         }
 
