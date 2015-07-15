@@ -1,5 +1,5 @@
 //
-//  IBView.h
+//  IBDesignableView.h
 //
 //  Copyright (c) 2015 Jetpack Pilots, Inc. [http://jetpackpilots.com]
 //
@@ -22,40 +22,16 @@
 //  THE SOFTWARE.
 //
 
-#import "TargetConditionals.h"
-
-#if TARGET_OS_IPHONE
-
-#import <UIKit/UIKit.h>
-
-IB_DESIGNABLE
-
-@interface IBView : UIView
-
-- (instancetype)initWithNibName:(NSString *)nibName;
-
-@property (copy, nonatomic) IBInspectable NSString *nibName;
-
-@property (readonly) UINib *nib;
-@property (readonly) UIView *contentView;
-
-@end
-
-#else
-
 #import <Cocoa/Cocoa.h>
 
 IB_DESIGNABLE
 
-@interface IBView : NSView
+@interface IBDesignableView : NSView
 
-- (instancetype)initWithNibName:(NSString *)nibName;
-
-@property (copy, nonatomic) IBInspectable NSString *nibName;
-
-@property (readonly) NSNib *nib;
-@property (readonly) NSView *contentView;
+@property (strong, nonatomic) NSColor *backgroundColor;
+@property (strong, nonatomic) IBInspectable NSColor *background;
+@property (strong, nonatomic) IBInspectable NSColor *borderColor;
+@property (assign, nonatomic) IBInspectable CGFloat borderWidth;
+@property (assign, nonatomic) IBInspectable CGFloat cornerRadius;
 
 @end
-
-#endif
