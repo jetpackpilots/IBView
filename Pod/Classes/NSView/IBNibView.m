@@ -177,7 +177,9 @@
         for (id object in objects) {
             if ([object isKindOfClass:[NSView class]]) {
                 self.contentView = object;
+#if TARGET_INTERFACE_BUILDER
                 [self.contentView layoutSubtreeIfNeeded];
+#endif
                 break;
             }
         }

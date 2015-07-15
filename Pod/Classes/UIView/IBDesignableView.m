@@ -62,7 +62,7 @@
     self.layer.cornerRadius = cornerRadius;
 
     if (cornerRadius != 0.0) {
-        self.clipsToBounds = YES;
+        self.layer.masksToBounds = YES;
     }
 }
 
