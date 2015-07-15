@@ -23,8 +23,10 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '8.0'
   s.osx.deployment_target = '10.9'
   s.requires_arc = true
-  s.source_files = 'Pod/Classes/**/*'
-  s.public_header_files = 'Pod/Classes/**/*.h'
+  s.ios.source_files = 'Pod/Classes/UIView/**/*'
+  s.ios.public_header_files = 'Pod/Classes/UIView/**/*.h'
+  s.osx.source_files = 'Pod/Classes/NSView/**/*'
+  s.osx.public_header_files = 'Pod/Classes/NSView/**/*.h'
   s.ios.frameworks = 'UIKit'
   s.osx.frameworks = 'Cocoa'
 end
