@@ -32,25 +32,77 @@
 @property (strong, nonatomic) NSView *contentView;
 #endif
 
-@property (readonly) NSArray *nibObjects;
-
 @end
 
 @implementation IBView
 
-+ (NSString *)nibName
++ (NSString *)defaultNibName
 {
     NSString *nibName = [NSStringFromClass(self) componentsSeparatedByString:@"."].lastObject;
 
     return [nibName isEqualToString:@"IBView"] ? nil : nibName;
 }
 
++ (id)nibWithNibName:(NSString *)nibName bundle:(NSBundle *)bundle
+{
+    static NSMutableDictionary *nibs;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        nibs = [NSMutableDictionary dictionary];
+    });
+
+    id nib;
+
+    if (nibName.length) {
+        if (nibs[nibName]) {
+            nib = nibs[nibName];
+        }
+        else {
+            if ([bundle URLForResource:nibName withExtension:@"nib"]) {
+#if TARGET_OS_IPHONE
+                nib = [UINib nibWithNibName:nibName bundle:bundle];
+#else
+                nib = [[NSNib alloc] initWithNibNamed:nibName bundle:bundle];
+#endif
+            }
+            if (nib) {
+                nibs[nibName] = nib;
+            }
+        }
+    }
+
+    return nib;
+}
+
+#pragma mark Designated Initializer
+
+- (instancetype)initWithNibName:(NSString *)nibName
+{
+#if TARGET_OS_IPHONE
+    self = [super initWithFrame:CGRectZero];
+#else
+    self = [super initWithFrame:NSZeroRect];
+#endif
+
+    if (self) {
+        self.nibName = [nibName copy] ?: [self.class defaultNibName];
+    }
+
+    return self;
+}
+
+#pragma mark Instance Variables
+
 @synthesize nibName = _nibName;
+@synthesize nib = _nib;
+@synthesize contentView = _contentView;
+
+#pragma mark Nib Name Property
 
 - (NSString *)nibName
 {
     if (! _nibName) {
-        _nibName = [self.class nibName];
+        _nibName = [self.class defaultNibName];
     }
 
     return _nibName;
@@ -62,12 +114,11 @@
 
     if (! [nibName isEqualToString:_nibName]) {
 
-        _nibName = [nibName copy];
+        [_contentView removeFromSuperview];
 
-        if (self.contentView) {
-            [self.contentView removeFromSuperview];
-            self.contentView = nil;
-        }
+        _nibName = [nibName copy];
+        _nib = nil;
+        _contentView = nil;
 
         if (_nibName.length) {
 #if TARGET_OS_IPHONE
@@ -80,88 +131,95 @@
     }
 }
 
-- (NSArray *)nibObjects
-{
-    static NSMutableDictionary *nibs;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        nibs = [NSMutableDictionary dictionary];
-    });
-
-    if (self.nibName.length) {
-
-        NSArray *objects;
-        id nib = nibs[self.nibName];
-
 #if TARGET_OS_IPHONE
 
-        if (nib) {
-            objects = [nib instantiateWithOwner:self options:nil];
-        }
-        else {
-            NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-            if ([bundle URLForResource:self.nibName withExtension:@"nib"]) {
-                nib = [UINib nibWithNibName:self.nibName bundle:bundle];
-                objects = [nib instantiateWithOwner:self options:nil];
-                if (objects.count) {
-                    nibs[self.nibName] = nib;
-                }
-            }
-        }
+#pragma mark Nib Property (UINib)
 
-        return objects;
+- (UINib *)nib
+{
+    if (! _nib) {
+        NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+        _nib = [self.class nibWithNibName:self.nibName bundle:bundle];
+    }
+
+    return _nib;
+}
 
 #else
 
-        if (nib) {
-            [nib instantiateWithOwner:self topLevelObjects:&objects];
-        }
-        else {
-            NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-            if ([bundle URLForResource:self.nibName withExtension:@"nib"]) {
-                nib = [[NSNib alloc] initWithNibNamed:self.nibName bundle:bundle];
-                [nib instantiateWithOwner:self topLevelObjects:&objects];
-                if (objects.count) {
-                    nibs[self.nibName] = nib;
-                }
-            }
-        }
+#pragma mark Nib Property (NSNib)
 
-        return objects;
-
-#endif
-
-    }
-
-    return nil;
-}
-
-- (instancetype)initWithNibName:(NSString *)nibName
+- (NSNib *)nib
 {
-#if TARGET_OS_IPHONE
-    self = [super initWithFrame:CGRectZero];
-#else
-    self = [super initWithFrame:NSZeroRect];
-#endif
-    if (self) {
-        self.nibName = [nibName copy] ?: [self.class nibName];
+    if (! _nib) {
+        NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+        _nib = [self.class nibWithNibName:self.nibName bundle:bundle];
     }
-    return self;
+
+    return _nib;
 }
+
+#endif
+
+#if TARGET_OS_IPHONE
+
+#pragma mark Content View Property (UIView)
+
+- (UIView *)contentView
+{
+    return _contentView;
+}
+
+- (void)setContentView:(UIView *)contentView
+{
+    if (contentView != _contentView) {
+        _contentView = contentView;
+        if (CGRectEqualToRect(self.frame, CGRectZero)) {
+            self.frame = CGRectMake(0.0, 0.0, CGRectGetWidth(_contentView.frame), CGRectGetHeight(_contentView.frame));
+        }
+        [_contentView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [self insertSubview:_contentView atIndex:0];
+        [self addSuperviewEqualEdgesConstraintsToView:_contentView];
+    }
+}
+
+#else
+
+#pragma mark Content View Property (NSView)
+
+- (NSView *)contentView
+{
+    return _contentView;
+}
+
+- (void)setContentView:(NSView *)contentView
+{
+    if (contentView != _contentView) {
+        _contentView = contentView;
+        if (NSEqualRects(self.frame, NSZeroRect)) {
+            self.frame = NSMakeRect(0.0, 0.0, NSWidth(_contentView.frame), NSHeight(_contentView.frame));
+        }
+        [_contentView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [self addSubview:_contentView positioned:NSWindowBelow relativeTo:nil];
+        [self addSuperviewEqualEdgesConstraintsToView:_contentView];
+    }
+}
+
+#endif
+
+#pragma mark Layout Methods
 
 #if TARGET_OS_IPHONE
 
 - (void)layoutSubviews
 {
     if (! self.contentView) {
-        for (id object in [self nibObjects]) {
+        NSArray *objects = [self.nib instantiateWithOwner:self options:nil];
+        for (id object in objects) {
             if ([object isKindOfClass:[UIView class]]) {
                 self.contentView = object;
                 break;
             }
-        }
-        if (self.contentView) {
-            [self addContentView];
         }
     }
 
@@ -173,15 +231,14 @@
 - (void)layout
 {
     if (! self.contentView) {
-        for (id object in [self nibObjects]) {
+        NSArray *objects;
+        [self.nib instantiateWithOwner:self topLevelObjects:&objects];
+        for (id object in objects) {
             if ([object isKindOfClass:[NSView class]]) {
                 self.contentView = object;
+                [self.contentView layoutSubtreeIfNeeded];
                 break;
             }
-        }
-        if (self.contentView) {
-            [self addContentView];
-            [self.contentView layoutSubtreeIfNeeded];
         }
     }
 
@@ -190,52 +247,27 @@
 
 #endif
 
-- (void)addContentView
+#pragma mark Constraints Methods
+
+- (void)addSuperviewEqualEdgesConstraintsToView:(id)view
 {
+    BOOL isView = NO;
 #if TARGET_OS_IPHONE
-    UIView *view;
-    if ([self.contentView isKindOfClass:[UIView class]]) {
-        view = self.contentView;
-    }
+    isView = [view isKindOfClass:[UIView class]];
 #else
-    NSView *view;
-    if ([self.contentView isKindOfClass:[NSView class]]) {
-        view = self.contentView;
-    }
+    isView = [view isKindOfClass:[NSView class]];
 #endif
 
-    if (view) {
-
-#if TARGET_OS_IPHONE
-        if (CGRectEqualToRect(self.frame, CGRectZero)) {
-            self.frame = CGRectMake(0.0, 0.0, CGRectGetWidth(view.frame), CGRectGetHeight(view.frame));
-        }
-#else
-        if (NSEqualRects(self.frame, NSZeroRect)) {
-            self.frame = NSMakeRect(0.0, 0.0, NSWidth(view.frame), NSHeight(view.frame));
-        }
-#endif
-
-        [view setTranslatesAutoresizingMaskIntoConstraints:NO];
-
-#if TARGET_OS_IPHONE
-        [self insertSubview:view atIndex:0];
-#else
-        [self addSubview:view positioned:NSWindowBelow relativeTo:nil];
-#endif
-
+    if (isView) {
         NSDictionary *views = NSDictionaryOfVariableBindings(view);
-
         [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|"
                                                                      options:0
                                                                      metrics:nil
                                                                        views:views]];
-
         [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view]|"
                                                                      options:0
                                                                      metrics:nil
                                                                        views:views]];
-
     }
 }
 

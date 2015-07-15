@@ -32,11 +32,12 @@ IB_DESIGNABLE
 
 @interface IBView : UIView
 
+- (instancetype)initWithNibName:(NSString *)nibName;
+
 @property (copy, nonatomic) IBInspectable NSString *nibName;
 
+@property (readonly) UINib *nib;
 @property (readonly) UIView *contentView;
-
-- (instancetype)initWithNibName:(NSString *)nibName;
 
 @end
 
@@ -48,11 +49,12 @@ IB_DESIGNABLE
 
 @interface IBView : NSView
 
+- (instancetype)initWithNibName:(NSString *)nibName;
+
 @property (copy, nonatomic) IBInspectable NSString *nibName;
 
+@property (readonly) NSNib *nib;
 @property (readonly) NSView *contentView;
-
-- (instancetype)initWithNibName:(NSString *)nibName;
 
 @end
 
