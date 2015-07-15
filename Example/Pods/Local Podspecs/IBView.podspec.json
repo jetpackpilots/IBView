@@ -17,12 +17,14 @@
     "osx": "10.9"
   },
   "requires_arc": true,
-  "source_files": "Pod/Classes/**/*",
-  "public_header_files": "Pod/Classes/**/*.h",
   "ios": {
+    "source_files": "Pod/Classes/UIView/**/*",
+    "public_header_files": "Pod/Classes/UIView/**/*.h",
     "frameworks": "UIKit"
   },
   "osx": {
+    "source_files": "Pod/Classes/NSView/**/*",
+    "public_header_files": "Pod/Classes/NSView/**/*.h",
     "frameworks": "Cocoa"
   }
 }

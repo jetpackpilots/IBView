@@ -1,1 +1,1 @@
-../../../../../Pod/Classes/IBView.h
+../../../../../Pod/Classes/UIView/IBView.h
