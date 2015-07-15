@@ -46,16 +46,32 @@
     return self;
 }
 
-#pragma mark Background Color
+#pragma mark NSView Methods
 
-- (NSColor *)backgroundColor
+- (BOOL)wantsUpdateLayer
 {
-    return [NSColor colorWithCGColor:self.layer.backgroundColor];
+    return YES;
 }
+
+- (void)updateLayer
+{
+    self.layer.backgroundColor = self.backgroundColor.CGColor;
+    self.layer.borderColor = self.borderColor.CGColor;
+    self.layer.borderWidth = self.borderWidth;
+    self.layer.cornerRadius = self.cornerRadius;
+
+    if (self.cornerRadius != 0.0) {
+        self.layer.masksToBounds = YES;
+    }
+}
+
+#pragma mark Background Color Property
 
 - (void)setBackgroundColor:(NSColor *)backgroundColor
 {
-    self.layer.backgroundColor = backgroundColor.CGColor;
+    _backgroundColor = backgroundColor;
+
+    self.needsDisplay = YES;
 }
 
 - (NSColor *)background
@@ -68,44 +84,31 @@
     self.backgroundColor = background;
 }
 
-#pragma mark Border Color
-
-- (NSColor *)borderColor
-{
-    return [NSColor colorWithCGColor:self.layer.borderColor];
-}
+#pragma mark Border Color Property
 
 - (void)setBorderColor:(NSColor *)borderColor
 {
-    self.layer.borderColor = borderColor.CGColor;
+    _borderColor = borderColor;
+
+    self.needsDisplay = YES;
 }
 
-#pragma mark Border Width
-
-- (CGFloat)borderWidth
-{
-    return self.layer.borderWidth;
-}
+#pragma mark Border Width Property
 
 - (void)setBorderWidth:(CGFloat)borderWidth
 {
-    self.layer.borderWidth = borderWidth;
+    _borderWidth = borderWidth;
+
+    self.needsDisplay = YES;
 }
 
-#pragma mark Corner Radius
-
-- (CGFloat)cornerRadius
-{
-    return self.layer.cornerRadius;
-}
+#pragma mark Corner Radius Property
 
 - (void)setCornerRadius:(CGFloat)cornerRadius
 {
-    self.layer.cornerRadius = cornerRadius;
+    _cornerRadius = cornerRadius;
 
-    if (cornerRadius != 0.0) {
-        self.layer.masksToBounds = YES;
-    }
+    self.needsDisplay = YES;
 }
 
 @end

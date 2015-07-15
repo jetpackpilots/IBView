@@ -28,8 +28,8 @@ IB_DESIGNABLE
 
 @interface IBDesignableView : UIView
 
-@property (strong, nonatomic) IBInspectable UIColor *borderColor;
-@property (assign, nonatomic) IBInspectable CGFloat borderWidth;
-@property (assign, nonatomic) IBInspectable CGFloat cornerRadius;
+@property (readwrite) IBInspectable UIColor *borderColor;
+@property (readwrite) IBInspectable CGFloat borderWidth;
+@property (readwrite) IBInspectable CGFloat cornerRadius;
 
 @end

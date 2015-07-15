@@ -29,7 +29,7 @@ IB_DESIGNABLE
 @interface IBDesignableView : NSView
 
 @property (strong, nonatomic) NSColor *backgroundColor;
-@property (strong, nonatomic) IBInspectable NSColor *background;
+@property (readwrite) IBInspectable NSColor *background;
 @property (strong, nonatomic) IBInspectable NSColor *borderColor;
 @property (assign, nonatomic) IBInspectable CGFloat borderWidth;
 @property (assign, nonatomic) IBInspectable CGFloat cornerRadius;
