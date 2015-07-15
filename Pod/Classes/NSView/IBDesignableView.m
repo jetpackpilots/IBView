@@ -26,7 +26,7 @@
 
 @implementation IBDesignableView
 
-#pragma mark Designated Initializer
+#pragma mark Initialization Methods
 
 - (instancetype)initWithFrame:(NSRect)frameRect
 {
